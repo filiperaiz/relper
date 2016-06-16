@@ -1,0 +1,245 @@
+<ion-view title="Adicionar pessoa">
+    <ion-content scroll="true">
+        <div class="padding form-input">
+            <strong class="title-form dark">Vamos começar o seu cadastro para usar o nosso aplicativo</strong>
+            <div class="list list-inset">
+
+                <div class="take-pic">
+                    <img ng-show="imgURI !== undefined" class="img-view-result" ng-src="{{imgURI}}">
+                    <img ng-show="imgURI === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
+                    <div class="row">
+                        <div class="col">
+                            <a class="button button-block button-calm" ng-click="takePhoto()">
+                                <i class="ion-camera"></i>Tirar
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a class="button button-block button-dark" ng-click="choosePhoto()">
+                                <i class="ion-image"></i>Selecionar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapse-person">
+                    <div class="collapse-item">
+                        <input class="acc-input" id="acc-1" type="checkbox" name="collapse-group">
+                        <label class="acc-label" for="acc-1">Sobre vocês<i class="acc-icon ion-ios-arrow-down"></i></label>
+                        <div class="collapse-content">
+                            <div class="block-info">
+                                <label class="item item-input item-select">
+                                    <div class="input-label">
+                                        Tipo
+                                    </div>
+                                    <select>
+                                        <option>Pai</option>
+                                        <option selected>Mãe</option>
+                                        <option>Namorado(a)</option>
+                                        <option>Esposo(a)</option>
+                                        <option>Outros</option>
+                                    </select>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Como se conheceream?</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Onde se conheceram?</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Quando começaram o relacionamento?</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Momentos inesquecíveis</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Mais alguma coisa?</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse-item">
+                        <input class="acc-input" id="acc-2" type="checkbox" name="collapse-group">
+                        <label class="acc-label" for="acc-2">Sobre<i class="acc-icon ion-ios-arrow-down"></i></label>
+                        <div class="collapse-content">
+                            <div class="block-info">
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Nome</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Data de nascimento</span>
+                                    <input type="date" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Onde nasceu</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse-item">
+                        <input class="acc-input" id="acc-3" type="checkbox" name="collapse-group">
+                        <label class="acc-label" for="acc-3">Caracteristicas<i class="acc-icon ion-ios-arrow-down"></i></label>
+                        <div class="collapse-content">
+                            <div class="block-info">
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Qualidades</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Defeitos</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse-item">
+                        <input class="acc-input" id="acc-4" type="checkbox" name="collapse-group">
+                        <label class="acc-label" for="acc-4">Preferências<i class="acc-icon ion-ios-arrow-down"></i></label>
+                        <div class="collapse-content">
+                            <div class="block-info">
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Cor</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Músicas</span>
+                                    <textarea name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Filmes</span>
+                                    <textarea name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Esportes</span>
+                                    <textarea name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Lugares</span>
+                                    <textarea name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Bebidas</span>
+                                    <textarea name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Livros</span>
+                                    <textarea name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Seriados</span>
+                                    <textarea name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Comidas</span>
+                                    <textarea name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse-item">
+                        <input class="acc-input" id="acc-5" type="checkbox" name="collapse-group">
+                        <label class="acc-label" for="acc-5">Trabalho<i class="acc-icon ion-ios-arrow-down"></i></label>
+                        <div class="collapse-content">
+                            <div class="block-info">
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Trabalha com o que?</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Qual horário?</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Outras informações sobre o trabalho</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse-item">
+                        <input class="acc-input" id="acc-6" type="checkbox" name="collapse-group">
+                        <label class="acc-label" for="acc-6">Amigos<i class="acc-icon ion-ios-arrow-down"></i></label>
+                        <div class="collapse-content">
+                            <div class="block-info">
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Confiáveis</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Não tão Confiáveis</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse-item">
+                        <input class="acc-input" id="acc-7" type="checkbox" name="collapse-group">
+                        <label class="acc-label" for="acc-7">Família<i class="acc-icon ion-ios-arrow-down"></i></label>
+                        <div class="collapse-content">
+                            <div class="block-info">
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Nome da mãe</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Nome do pai</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Irmãos</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Outros familiares</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse-item">
+                        <input class="acc-input" id="acc-8" type="checkbox" name="collapse-group">
+                        <label class="acc-label" for="acc-8">Roupas<i class="acc-icon ion-ios-arrow-down"></i></label>
+                        <div class="collapse-content">
+                            <div class="block-info">
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Tamanho de camisa</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Tamanho calça/saia</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Tamanho de short</span>
+                                    <input type="text" placeholder="">
+                                </label>
+                                <label class="item item-input item-stacked-label">
+                                    <span class="input-label">Outras roupas</span>
+                                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar align-title="center" class="bar-dark">
+        <div class="actions-footer">
+            <button class="button button-balanced" ng-click="">Adicionar</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

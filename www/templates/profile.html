@@ -1,0 +1,55 @@
+<ion-view title="Meu perfil">
+    <ion-content>
+        <div class="padding">
+            <form action="" class="form-input">
+                <div class="list list-inset">
+                    <div class="take-pic">
+                        <img ng-show="imgURI !== undefined" class="img-view-result" ng-src="{{imgURI}}">
+                        <img ng-show="imgURI === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
+                        <div class="row">
+                            <div class="col">
+                                <a class="button button-block button-calm" ng-click="takePhoto()">
+                                    <i class="ion-camera"></i>Tirar
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="button button-block button-dark" ng-click="choosePhoto()">
+                                    <i class="ion-image"></i>Selecionar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Nome</span>
+                        <input type="text" placeholder="">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Email</span>
+                        <input type="email" placeholder="">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Telefone</span>
+                        <input type="tel" placeholder="">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Aniversário</span>
+                        <input type="date" placeholder="Data de aniversario">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Senha</span>
+                        <input type="password" placeholder="">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Confirmar Senha</span>
+                        <input type="password" placeholder="">
+                    </label>
+                </div>
+            </form>
+        </div>
+    </ion-content>
+    <ion-footer-bar align-title="center" class="bar-dark">
+        <div class="actions-footer">
+            <button class="button button-balanced" ng-click="">Salvar</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

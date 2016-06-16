@@ -1,0 +1,55 @@
+<ion-view view-title="Datas">
+
+    <ion-content>
+
+        <!-- Refresh  -->
+        <ion-refresher
+          pulling-text="Atualizando..."
+          on-refresh="doRefresh()">
+        </ion-refresher>
+
+
+        <div class="list-processos">
+            <!-- <ion ng-repeat="processo in processos"> -->
+            <ion>
+                <div class="item-timeline item-widget">
+                    <div class="widget-header">
+                        <h4 class="title">17/12</h4>
+                        <a class="link-see" href="#/app/person_date_view">
+                            <i class="icon ion-eye"></i>
+                        </a>
+                    </div>
+                    <div class="widget-body">
+                        <ul class="widget-list-info">
+                            <li class="item-list">
+                                <div class="info-title">
+                                    <p>Descrição</p>
+                                </div>
+                                <div class="info-detail">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elveniam.</p>
+                                </div>
+                            </li>
+                            <li class="item-list two">
+                                <div class="info-title">
+                                    <p>Pessoa</p>
+                                </div>
+                                <div class="info-detail">
+                                    <p>Filipe Raiz</p>
+                                </div>
+                            </li>
+                            <li class="item-list two" >
+                                <div class="info-title">
+                                    <p>Faltam</p>
+                                </div>
+                                <div class="info-detail">
+                                    <p>2 dias</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ion>
+        </div>
+    </ion-content>
+</ion-view>
+

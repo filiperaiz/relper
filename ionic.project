@@ -1,0 +1,12 @@
+{
+  "name": "Relper",
+  "app_id": "ee42be49",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}

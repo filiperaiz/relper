@@ -1,0 +1,43 @@
+<ion-view title="Novo lugar">
+    <ion-content>
+        <div class="padding form-input">
+            <strong class="title-form dark">Cadastre um novo presente para esta pessoa</strong>
+            <div class="list list-inset">
+                <div class="list input-form">
+                    <div class="take-pic">
+                        <img ng-show="imgURI !== undefined" class="img-view-result" ng-src="{{imgURI}}">
+                        <img ng-show="imgURI === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
+                        <div class="row">
+                            <div class="col">
+                                <a class="button button-block button-calm" ng-click="takePhoto()">
+                                    <i class="ion-camera"></i>Tirar
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="button button-block button-dark" ng-click="choosePhoto()">
+                                    <i class="ion-image"></i>Selecionar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Nome</span>
+                    <input type="text" placeholder="">
+                </label>
+
+                <label class="item item-input item-stacked-label ">
+                    <span class="input-label">Descrição</span>
+                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                </label>
+            </div>
+        </div>
+    </ion-content>
+
+    <ion-footer-bar align-title="center" class="bar-dark">
+        <div class="actions-footer">
+            <button class="button button-balanced" ng-click="">Adicionar</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>
