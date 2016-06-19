@@ -4,21 +4,128 @@ angular.module('starter.controllers', [])
 
 
 // LOGIN CONTROLLER
-.controller('loginCtrl', function($scope, $state, $timeout, $ionicLoading, $ionicModal) {
+.controller('loginCtrl', function($scope, $state, $timeout, $ionicLoading, $ionicModal, Auth, $q, $window, $ionicPopup, Util) {
     $scope.activeTemplate = 'login';
+    $scope.user = {};
 
-    $scope.facebook = function() {
+
+    if (Util.logged()) {
+        $state.go('app.person');
+    }else{
+        $state.go('login');
+    }
+
+
+
+    $scope.facebook_enter = function() {
         $ionicLoading.show({
             template: 'Aguarde'
         });
-        $timeout(function() {
-            $ionicLoading.hide();
-            $state.go('sign-in');
-        }, 2000);
+        
+
+        facebookConnectPlugin.getLoginStatus(function(success){
+            if(success.status === 'connected'){
+                // The user is logged in and has authenticated your app, and response.authResponse supplies
+                // the user's ID, a valid access token, a signed request, and the time the access token
+                // and signed request each expire
+                getFacebookProfileInfo(success.authResponse)
+                .then(function(profileInfo) {
+                    // For the purpose of this example I will store user data on local storage
+                    UserService.setUser({
+                        authResponse: success.authResponse,
+                        userID: profileInfo.id,
+                        name: profileInfo.name,
+                        email: profileInfo.email,
+                        picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
+                    });
+
+                    $state.go('app.home');
+                }, function(fail){
+                    // Fail get profile info
+                    console.log('profile info fail', fail);
+                });
+            } else {
+                // If (success.status === 'not_authorized') the user is logged in to Facebook,
+                // but has not authenticated your app
+                // Else the person is not logged into Facebook,
+                // so we're not sure if they are logged into this app or not.
+
+                console.log('getLoginStatus', success.status);
+
+                $ionicLoading.show({
+                    template: 'Logging in...'
+                });
+
+                // Ask the permissions you need. You can learn more about
+                // FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
+                facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
+            }
+        });
     };
 
-    $scope.signin = function() {
+    $scope.signin = function(){
         $state.go('sign-in');
+    }
+
+    $scope.create_user = function() {
+
+        $ionicLoading.show({
+            template: 'Aguarde'
+        });
+        
+        var credentials = {
+            name: $scope.user.name,
+            email: $scope.user.email,
+            password: $scope.user.password,
+            password_confirmation: $scope.user.password_confirmation
+        };
+
+        var config = {
+            headers: {
+                'X-HTTP-Method-Override': 'POST'
+            }
+        };
+
+        Auth.register(credentials, config).then(function(registeredUser) {}, function(error) {
+            message = '';
+            if (typeof error.data.errors.name != 'undefined') {
+                message += '<li>Email: ' + error.data.errors.name + '</li>'
+            }
+            if (typeof error.data.errors.email != 'undefined') {
+                message += '<li>Email: ' + error.data.errors.email + '</li>'
+            }
+            if (typeof error.data.errors.password != 'undefined') {
+                message += '<li>Senha: ' + error.data.errors.password + '</li>'
+            }
+            $ionicPopup.alert({
+                title: 'Erro!!',
+                template: message
+            });
+            $ionicLoading.hide();
+        });
+
+        $scope.$on('devise:new-registration', function(event, user) {
+            $ionicLoading.hide();
+            $ionicPopup.alert({
+                title: 'Cadastro',
+                template: 'Cadastro Realizado. Faça seu Login!!'
+            });
+
+            var config = {
+                headers: {
+                    'X-HTTP-Method-Override': 'DELETE'
+                }
+            };
+            Auth.logout(config).then(function(oldUser) {
+                // alert(oldUser.name + "you're signed out now.");
+            }, function(error) {
+                // An error occurred logging out.
+            });
+            $scope.$on('devise:logout', function(event, oldCurrentUser) {
+                // ...
+            });
+            $state.go('login');
+        });
     };
 
 
@@ -26,10 +133,35 @@ angular.module('starter.controllers', [])
         $ionicLoading.show({
             template: 'Aguarde'
         });
-        $timeout(function() {
+
+        var credentials = {
+            email: $scope.user.email,
+            password: $scope.user.password
+        };
+
+        var config = {
+            headers: {
+                'X-HTTP-Method-Override': 'POST'
+            }
+        };
+
+        Auth.login(credentials, config).then(function(user) {
+        
+        }, function(error) {
+            $ionicLoading.hide();
+            console.log(error)
+        });
+
+        $scope.$on('devise:login', function(event, currentUser) {
+            // after a login, a hard refresh, a new tab
+        });
+
+
+        $scope.$on('devise:new-session', function(event, currentUser) {
+            $window.localStorage['user_token'] = JSON.stringify(currentUser);
             $ionicLoading.hide();
             $state.go('app.person');
-        }, 2000);
+        });
     };
 })
 
@@ -38,54 +170,572 @@ angular.module('starter.controllers', [])
 .controller('TimelineCtrl', function($scope, $stateParams) {})
 
 // PERSON CONTROLLER
-.controller('PersonCtrl', function($scope, $stateParams) {})
+.controller('ListPersonCtrl', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
 
-.controller('itemPersonCtrl', function($scope, $stateParams, $cordovaCamera, $ionicScrollDelegate) {
+    if (Util.logged()) {
 
-  var g = document.getElementsByClassName("acc-input");
-  for (var i=0; i < g.length; i++) {
-    g[i].onclick = function(){$ionicScrollDelegate.resize();};
-  }
+        $scope.list_people = {};
 
-  $scope.takePhoto = function() {
-      var options = {
-          quality: 75,
-          destinationType: Camera.DestinationType.DATA_URL,
-          sourceType: Camera.PictureSourceType.CAMERA,
-          allowEdit: true,
-          encodingType: Camera.EncodingType.JPEG,
-          targetWidth: 300,
-          targetHeight: 300,
-          popoverOptions: CameraPopoverOptions,
-          saveToPhotoAlbum: false
-      };
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        $scope.page = 1;
 
-      $cordovaCamera.getPicture(options).then(function(imageData) {
-          $scope.imgURI = "data:image/jpeg;base64," + imageData;
-      }, function(err) {
-          // An error occured. Show a message to the user
-      });
-  }
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token, 
+            page:$scope.page
+        };
 
-  $scope.choosePhoto = function() {
-      var options = {
-          quality: 75,
-          destinationType: Camera.DestinationType.DATA_URL,
-          sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-          allowEdit: true,
-          encodingType: Camera.EncodingType.JPEG,
-          targetWidth: 300,
-          targetHeight: 300,
-          popoverOptions: CameraPopoverOptions,
-          saveToPhotoAlbum: false
-      };
+        var config = {
+            params: parameters
+        };
 
-      $cordovaCamera.getPicture(options).then(function(imageData) {
-          $scope.imgURI = "data:image/jpeg;base64," + imageData;
-      }, function(err) {
-          // An error occured. Show a message to the user
-      });
-  }
+        $http.get('http://localhost:3000/api/v1/realper/list_people.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.list_people = data.list_people;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.loadMore = function() {
+            //$ionicLoading.show({template: '<ion-spinner icon="spiral"></ion-spinner><br>Aguarde...'});
+            $scope.page += 1;
+            
+            var parameters = {
+                token_user:user.token,
+                user_id:user.id,
+                user_token:user.token, 
+                page:$scope.page
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.get('http://localhost:3000/api/v1/realper/list_people.json', config)
+            .success(function(data, status, headers, config) {
+                if(data.user_logged.flag){
+                    if(data.list_people.length==0){
+                        $scope.hasMoreData  = false;
+                    }
+                    for (i = 0; i < data.list_people.length; i++) {
+                        $scope.list_people.push(data.list_people[i]);
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                }else{
+                    $window.localStorage.removeItem('user_token');
+                    $ionicLoading.hide();
+                    $state.go('login');
+                }
+            });
+        };
+
+
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+.controller('itemPersonCtrl', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
+
+    $scope.person_id = $stateParams.person_id;
+
+    if (Util.logged()) {
+
+        $scope.list_people = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        $scope.page = 1;
+
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            person_id:$scope.person_id
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/person.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.person = data.person;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+.controller('itemPersonNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        $scope.add_person = function(){
+
+            $ionicLoading.show({
+                template: 'Aguarde'
+            });
+
+            var user = JSON.parse($window.localStorage['user_token']);
+            
+            var parameters = {
+                user_id:user.id,
+                user_token:user.token,
+                avatar:$scope.person.avatar,
+                email:$scope.person.email,
+                type_relative:$scope.person.type_relative,
+                as_met:$scope.person.as_met,
+                where_met:$scope.person.where_met,
+                when_met:$scope.person.when_met,
+                when_relationship:$scope.person.when_relationship,
+                unforgettable_moments:$scope.person.unforgettable_moments,
+                something_else:$scope.person.something_else,
+                birth_date:$scope.person.birth_date,
+                place_of_birth:$scope.person.place_of_birth,
+                qualities:$scope.person.qualities,
+                defects:$scope.person.defects,
+                color:$scope.person.color,
+                music:$scope.person.music,
+                films:$scope.person.films,
+                sports:$scope.person.sports,
+                place:$scope.person.place,
+                drinks:$scope.person.drinks,
+                series:$scope.person.series,
+                foods:$scope.person.foods,
+                works_with_what:$scope.person.works_with_what,
+                job_time:$scope.person.job_time,
+                about_work:$scope.person.about_work,
+                reliable_friends:$scope.person.reliable_friends,
+                unreliable_friends:$scope.person.unreliable_friends,
+                name_mother:$scope.person.name_mother,
+                name_father:$scope.person.name_father,
+                brothers:$scope.person.brothers,
+                other_relatives:$scope.person.other_relatives,
+                shirt_size:$scope.person.shirt_size,
+                pant_size:$scope.person.pant_size,
+                short_size:$scope.person.short_size,
+                other_clothes:$scope.person.other_clothes
+            };
+
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            var parameters = {
+                params: parameters
+            };
+
+            console.log(parameters)
+            console.log(config)
+
+
+            $http.post('http://localhost:3000/api/v1/realper/create_person.json', parameters, config)
+            .success(function(data, status, headers, config) {
+
+                console.log(data)
+
+                if(data.user_logged.flag){
+                    if(typeof data.errors_person == "undefined"){
+                        $ionicLoading.hide();
+                        $state.go('app.person');
+                    }else{
+                        var er = '';
+                        for(i=0; i<data.errors_person.length;i++){
+                            er+= data.errors_person[i].message+'<br>';
+                        }
+                        $ionicPopup.alert({
+                         title: 'Erro!!!',
+                         template: er
+                       });
+                        $ionicLoading.hide();
+                    }
+                }else{
+                    $window.localStorage.removeItem('user_token');
+                    $ionicLoading.hide();
+                    $state.go('login');
+                }
+            });
+        }
+
+
+        var g = document.getElementsByClassName("acc-input");
+        for (var i=0; i < g.length; i++) {
+            g[i].onclick = function(){$ionicScrollDelegate.resize();};
+        }
+
+        $scope.takePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.person.avatar = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+              // An error occured. Show a message to the user
+            });
+        }
+
+        $scope.choosePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.person.avatar = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+              // An error occured. Show a message to the user
+            });
+        }
+
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+.controller('itemPersonDateCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    $scope.person_id = $stateParams.person_id;
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        $scope.page = 1;
+
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            person_id:$scope.person_id,
+            page:$scope.page
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/list_reminders.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.list_reminders = data.list_reminders;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.loadMore = function() {
+            //$ionicLoading.show({template: '<ion-spinner icon="spiral"></ion-spinner><br>Aguarde...'});
+            $scope.page += 1;
+            
+            var parameters = {
+                token_user:user.token,
+                user_id:user.id,
+                user_token:user.token,
+                person_id:$scope.person_id,
+                page:$scope.page
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.get('http://localhost:3000/api/v1/realper/list_reminders.json', config)
+            .success(function(data, status, headers, config) {
+                if(data.user_logged.flag){
+                    if(data.list_reminders.length==0){
+                        $scope.hasMoreData  = false;
+                    }
+                    for (i = 0; i < data.list_reminders.length; i++) {
+                        $scope.list_reminders.push(data.list_reminders[i]);
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                }else{
+                    $window.localStorage.removeItem('user_token');
+                    $ionicLoading.hide();
+                    $state.go('login');
+                }
+            });
+        };
+
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+.controller('itemPersonPlaceCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    $scope.person_id = $stateParams.person_id;
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        $scope.page = 1;
+
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            person_id:$scope.person_id,
+            page:$scope.page
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/list_places.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.list_places = data.list_places;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.loadMore = function() {
+            //$ionicLoading.show({template: '<ion-spinner icon="spiral"></ion-spinner><br>Aguarde...'});
+            $scope.page += 1;
+            
+            var parameters = {
+                token_user:user.token,
+                user_id:user.id,
+                user_token:user.token,
+                person_id:$scope.person_id,
+                page:$scope.page
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.get('http://localhost:3000/api/v1/realper/list_places.json', config)
+            .success(function(data, status, headers, config) {
+                if(data.user_logged.flag){
+                    if(data.list_places.length==0){
+                        $scope.hasMoreData  = false;
+                    }
+                    for (i = 0; i < data.list_places.length; i++) {
+                        $scope.list_places.push(data.list_places[i]);
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                }else{
+                    $window.localStorage.removeItem('user_token');
+                    $ionicLoading.hide();
+                    $state.go('login');
+                }
+            });
+        };
+
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+.controller('itemPersonFoodCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    $scope.person_id = $stateParams.person_id;
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        $scope.page = 1;
+
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            person_id:$scope.person_id,
+            page:$scope.page
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/list_foods.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.list_foods = data.list_foods;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.loadMore = function() {
+            //$ionicLoading.show({template: '<ion-spinner icon="spiral"></ion-spinner><br>Aguarde...'});
+            $scope.page += 1;
+            
+            var parameters = {
+                token_user:user.token,
+                user_id:user.id,
+                user_token:user.token,
+                person_id:$scope.person_id,
+                page:$scope.page
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.get('http://localhost:3000/api/v1/realper/list_foods.json', config)
+            .success(function(data, status, headers, config) {
+                if(data.user_logged.flag){
+                    if(data.list_foods.length==0){
+                        $scope.hasMoreData  = false;
+                    }
+                    for (i = 0; i < data.list_foods.length; i++) {
+                        $scope.list_foods.push(data.list_foods[i]);
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                }else{
+                    $window.localStorage.removeItem('user_token');
+                    $ionicLoading.hide();
+                    $state.go('login');
+                }
+            });
+        };
+
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+.controller('itemPersonInterestsCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    $scope.person_id = $stateParams.person_id;
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        $scope.page = 1;
+
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            person_id:$scope.person_id,
+            page:$scope.page
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/list_interests.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.list_interests = data.list_interests;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.loadMore = function() {
+            //$ionicLoading.show({template: '<ion-spinner icon="spiral"></ion-spinner><br>Aguarde...'});
+            $scope.page += 1;
+            
+            var parameters = {
+                token_user:user.token,
+                user_id:user.id,
+                user_token:user.token,
+                person_id:$scope.person_id,
+                page:$scope.page
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.get('http://localhost:3000/api/v1/realper/list_interests.json', config)
+            .success(function(data, status, headers, config) {
+                if(data.user_logged.flag){
+                    if(data.list_interests.length==0){
+                        $scope.hasMoreData  = false;
+                    }
+                    for (i = 0; i < data.list_interests.length; i++) {
+                        $scope.list_interests.push(data.list_interests[i]);
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                }else{
+                    $window.localStorage.removeItem('user_token');
+                    $ionicLoading.hide();
+                    $state.go('login');
+                }
+            });
+        };
+
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
 })
 
 

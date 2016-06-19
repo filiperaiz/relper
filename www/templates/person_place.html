@@ -1,4 +1,4 @@
-<ion-view view-title="Lugares">
+<ion-view view-title="Lugares" ng-controller="itemPersonPlaceCtrl">
     <!-- nav header button -->
     <ion-nav-buttons side="right">
         <a class="button button-icon button-clear ion-ios-plus-outline" ng-href="#/app/person_place_form"></a>
@@ -10,9 +10,9 @@
         <div class="list-infos">
             <!-- <ion ng-repeat="processo in processos"> -->
             <ion>
-                <div class="item-timeline item-widget">
+                <div class="item-timeline item-widget" ng-repeat="list in list_places">
                     <div class="widget-header">
-                        <h4 class="title">Teatro 4 de setembro</h4>
+                        <h4 class="title">{{list.title}}</h4>
                         <a class="link-see" href="#/app/person_place_view">
                             <i class="icon ion-eye"></i>
                         </a>
@@ -21,7 +21,6 @@
                     <div class="widget-body">
                         <ul class="widget-list-info">
                             <li class="item-list">
-
                                 <div class="info-detail">
                                     <img src="http://4.bp.blogspot.com/_iqj3EFJ73-M/S8egKslMjQI/AAAAAAAAPU4/9tk5w9I7-kA/s1600/teatro+4+de+setembro.jpg" alt="">
                                 </div>
@@ -31,34 +30,19 @@
                                     <p>Descrição</p>
                                 </div>
                                 <div class="info-detail">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elveniam.</p>
+                                    <p>{{list.description}}</p>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="item-timeline item-widget">
-                    <div class="widget-header">
-                        <h4 class="title">Teatro 4 de setembro</h4>
-                        <a class="link-see" href="#/app/person_place_view">
-                            <i class="icon ion-eye"></i>
-                        </a>
-                    </div>
+                <ion-infinite-scroll
+                    ng-if="hasMoreData"
+                    on-infinite="loadMore()"
+                    distance="10%">
+                </ion-infinite-scroll>
 
-                    <div class="widget-body">
-                        <ul class="widget-list-info">
-                            <li class="item-list">
-                                <div class="info-title">
-                                    <p>Descrição</p>
-                                </div>
-                                <div class="info-detail">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elveniam.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </ion>
         </div>
     </ion-content>

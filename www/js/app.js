@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'Devise'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -22,21 +22,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, AuthProvider, AuthInterceptProvider) {
+
+
+    // DEVISE
+    AuthProvider.loginMethod('POST');
+    AuthProvider.loginPath('http://localhost:3000/users/sign_in.json');
+
+    // Customize logout
+    AuthProvider.logoutMethod('DELETE');
+    AuthProvider.logoutPath('http://localhost:3000/users/sign_out.json');
+
+    // Customize register
+    AuthProvider.registerMethod('POST');
+    AuthProvider.registerPath('http://localhost:3000/users.json');
+
+    //AuthProvider.resourceName('user');
+
+    // Intercept 401 Unauthorized everywhere
+    // Enables `devise:unauthorized` interceptor
+    AuthInterceptProvider.interceptAuth(true);
 
 
     $stateProvider
 
     .state('login', {
         url: '/login',
-        templateUrl: 'templates/login.html',
-        controller: 'loginCtrl'
+        templateUrl: 'templates/login.html'
     })
 
     .state('sign-in', {
         url: '/sign-in',
-        templateUrl: 'templates/sign-in.html',
-        controller: 'loginCtrl'
+        templateUrl: 'templates/sign-in.html'
     })
 
     .state('app', {
@@ -66,8 +83,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         url: '/person',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person.html',
-                controller: 'PersonCtrl'
+                templateUrl: 'templates/person.html'
             }
         }
     })
@@ -77,7 +93,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         views: {
             'menuContent': {
                 templateUrl: 'templates/person_add.html',
-                controller: 'itemPersonCtrl',
 
             }
         }
@@ -95,23 +110,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     })
 
     .state('app.item_person', {
-        url: '/person/item_person',
+        url: '/person/item_person/:person_id',
         views: {
             'menuContent': {
                 templateUrl: 'templates/item_person.html',
-                controller: 'itemPersonCtrl',
-
             }
         }
     })
 
     .state('app.person_date', {
-        url: '/person/person_date',
+        url: '/person/person_date/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_date.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_date.html'
             }
         }
     })
@@ -139,13 +150,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     })
 
     .state('app.person_food', {
-        url: '/person/person_food',
+        url: '/person/person_food/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_food.html',
-                controller: 'itemPersonCtrl',
-
-            }
+                templateUrl: 'templates/person_food.html'            }
         }
     })
 
@@ -174,13 +182,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
 
     .state('app.person_place', {
-        url: '/person/person_place',
+        url: '/person/person_place/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_place.html',
-                controller: 'itemPersonCtrl',
-
-            }
+                templateUrl: 'templates/person_place.html'            }
         }
     })
 
@@ -209,12 +214,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
 
     .state('app.person_present', {
-        url: '/person/person_present',
+        url: '/person/person_present/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_present.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_present.html'
             }
         }
     })

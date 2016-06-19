@@ -1,4 +1,4 @@
-<ion-view view-title="Pessoa">
+<ion-view view-title="Pessoa" ng-controller="itemPersonCtrl">
     <ion-content class="padding">
         <div class="header-person">
             <div class="row">
@@ -12,30 +12,30 @@
                     <a ng-href="#/app/person_view" class="button button-calm ion-edit"></a>
                 </div>
             </div>
-            <h2 class="title">Pedro Henrique</h2>
-            <p class="type">Pai</p>
+            <h2 class="title">{{person.name}}</h2>
+            <p class="type">{{person.type_relative}}</p>
         </div>
 
         <div class="body-person">
-            <a class="item-category card" ng-href="#/app/person/person_date">
+            <a class="item-category card" ng-href="#/app/person/person_date/{{person_id}}">
                 <div class="item item-image">
                     <img class="image-category" ng-src="img/upload/bg-calendar.jpg">
                     <span class="category">Datas</span>
                 </div>
             </a>
-            <a class="item-category card" ng-href="#/app/person/person_place">
+            <a class="item-category card" ng-href="#/app/person/person_place/{{person_id}}">
                 <div class="item item-image">
                     <img class="image-category" ng-src="img/upload/bg-places.jpg">
                     <span class="category">Lugares</span>
                 </div>
             </a>
-            <a class="item-category card" ng-href="#/app/person/person_food">
+            <a class="item-category card" ng-href="#/app/person/person_food/{{person_id}}">
                 <div class="item item-image">
                     <img class="image-category" ng-src="img/upload/bg-food.jpg">
                     <span class="category">Comidas</span>
                 </div>
             </a>
-            <a class="item-category card" ng-href="#/app/person/person_present">
+            <a class="item-category card" ng-href="#/app/person/person_present/{{person_id}}">
                 <div class="item item-image">
                     <img class="image-category" ng-src="img/upload/bg-presente.jpg">
                     <span class="category">Presentes e Interesses</span>

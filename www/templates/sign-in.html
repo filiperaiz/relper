@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view ng-controller="loginCtrl">
     <ion-nav-bar class="bar-positive">
         <ion-nav-back-button></ion-nav-back-button>
         <ion-nav-title>
@@ -11,30 +11,30 @@
             <div class="list list-inset">
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Nome</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="user.name">
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Email</span>
-                    <input type="email" placeholder="">
+                    <input type="email" placeholder="" ng-model="user.email">
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Telefone</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="user.phone">
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Senha</span>
-                    <input type="password" placeholder="">
+                    <input type="password" placeholder="" ng-model="user.password">
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Confirmação de Senha</span>
-                    <input type="password" placeholder="">
+                    <input type="password" placeholder="" ng-model="user.password_confirmation">
                 </label>
             </div>
         </div>
     </ion-content>
     <ion-footer-bar align-title="center" class="bar-positive">
         <div class="register-footer">
-            <button class="button button-clear button-register" ng-click="enter()">Cadastrar</button>
+            <button class="button button-clear button-register" ng-click="create_user()">Cadastrar</button>
         </div>
     </ion-footer-bar>
 </ion-view>

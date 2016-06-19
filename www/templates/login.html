@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view ng-controller="loginCtrl">
     <ion-content scroll="false" class="bg-app">
         <div class="logo-auth">
             <img src="img/logo.png" height="120" />
@@ -6,7 +6,7 @@
         <div class="form-input">
             <form class="login-form" ng-show="activeTemplate === 'login'">
                 <div class="login-social">
-                    <button class="button button-block button-facebook" ng-click="enter()">
+                    <button class="button button-block button-facebook" ng-click="facebook_enter()">
                         <i class="icon-facebook-squared-1"></i> FACEBOOK
                     </button>
                 </div>
@@ -14,11 +14,11 @@
                 <div class="list list-inset">
                     <label class="item item-input">
                         <i class="icon ion-ios-email-outline"></i>
-                        <input type="email" placeholder="Email">
+                        <input type="email" placeholder="Email" ng-model="user.email">
                     </label>
                     <label class="item item-input">
                         <i class="icon ion-ios-locked-outline"></i>
-                        <input type="password" placeholder="Senha">
+                        <input type="password" placeholder="Senha" ng-model="user.password">
                     </label>
                     <div>
                         <button class="button button-block button-login" ng-click="enter()">

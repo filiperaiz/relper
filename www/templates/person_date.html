@@ -1,4 +1,4 @@
-<ion-view view-title="Datas">
+<ion-view view-title="Datas" ng-controller="itemPersonDateCtrl">
 
     <!-- nav header button -->
     <ion-nav-buttons side="right">
@@ -10,9 +10,9 @@
         <div class="list-infos">
             <!-- <ion ng-repeat="processo in processos"> -->
             <ion>
-                <div class="item-timeline item-widget">
+                <div class="item-timeline item-widget" ng-repeat="list in list_reminders">
                     <div class="widget-header">
-                        <h4 class="title">17/12</h4>
+                        <h4 class="title">{{list.date}}</h4>
                         <a class="link-see" href="#/app/person_date_view">
                             <i class="icon ion-eye"></i>
                         </a>
@@ -24,7 +24,7 @@
                                     <p>Descrição</p>
                                 </div>
                                 <div class="info-detail">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elveniam.</p>
+                                    <p>{{list.description}}</p>
                                 </div>
                             </li>
                             <li class="item-list two">
@@ -32,7 +32,7 @@
                                     <p>Pessoa</p>
                                 </div>
                                 <div class="info-detail">
-                                    <p>Filipe Raiz</p>
+                                    <p>{{list.person}}</p>
                                 </div>
                             </li>
                             <li class="item-list two" >
@@ -40,12 +40,19 @@
                                     <p>Faltam</p>
                                 </div>
                                 <div class="info-detail">
-                                    <p>2 dias</p>
+                                    <p>{{list.time_relative}}</p>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
+
+                <ion-infinite-scroll
+                    ng-if="hasMoreData"
+                    on-infinite="loadMore()"
+                    distance="10%">
+                </ion-infinite-scroll>
+
             </ion>
         </div>
     </ion-content>

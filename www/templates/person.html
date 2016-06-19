@@ -1,4 +1,4 @@
-<ion-view view-title="Pessoas">
+<ion-view view-title="Pessoas" ng-controller="ListPersonCtrl">
     <!-- nav header button -->
     <ion-nav-buttons side="right">
         <a class="button button-icon button-clear ion-ios-plus-outline" ng-href="#/app/person_add"></a>
@@ -7,12 +7,19 @@
     <ion-content class="padding">
         <div class="list-persons list">
             <!-- <ion-item class="item-avatar item-icon-right item-cliente" ng-repeat="cliente in clientes" type="item-text-wrap" href="#/app/clientes/{{cliente.id}}"> -->
-            <ion-item class="item-avatar item-icon-right item-person" type="item-text-wrap" href="#/app/person/item_person">
+            <ion-item class="item-avatar item-icon-right item-person" type="item-text-wrap" href="#/app/person/item_person/{{list.id}}" ng-repeat="list in list_people">
                 <img ng-src="img/upload/user.jpg">
-                <h2 class="name">Pedro</h2>
-                <p class="type">Pai</p>
+                <h2 class="name">{{list.name}}</h2>
+                <p class="type">{{list.type_relative}}</p>
                 <i class="icon ion-chevron-right icon-accessory"></i>
             </ion-item>
+
+            <ion-infinite-scroll
+                ng-if="hasMoreData"
+                on-infinite="loadMore()"
+                distance="10%">
+            </ion-infinite-scroll>
+
         </div>
     </ion-content>
 
