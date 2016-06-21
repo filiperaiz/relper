@@ -430,6 +430,9 @@ angular.module('starter.controllers', [])
     }
 })
 
+
+
+// REMINDER
 .controller('itemPersonDateCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.person_id = $stateParams.person_id;
@@ -507,6 +510,70 @@ angular.module('starter.controllers', [])
     }
 })
 
+.controller('itemPersonDateIdCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    $scope.reminder_id = $stateParams.reminder_id;
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            reminder_id:$scope.reminder_id
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/reminder.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.reminder = data.reminder;
+                $scope.reminder.date = new Date($scope.reminder.date);
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.delete = function(id){
+
+            var parameters = {
+                user_id:user.id,
+                user_token:user.token,
+                reminder_id:id
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.delete('http://localhost:3000/api/v1/realper/reminder_delete.json', config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_date', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+
+// PLACE
 .controller('itemPersonPlaceCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.person_id = $stateParams.person_id;
@@ -584,6 +651,69 @@ angular.module('starter.controllers', [])
     }
 })
 
+.controller('itemPersonPlaceIdCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    $scope.place_id = $stateParams.place_id;
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            place_id:$scope.place_id
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/place.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.place = data.place;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.delete = function(id){
+
+            var parameters = {
+                user_id:user.id,
+                user_token:user.token,
+                place_id:id
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.delete('http://localhost:3000/api/v1/realper/place_delete.json', config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_place', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+
+// FOOD
 .controller('itemPersonFoodCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.person_id = $stateParams.person_id;
@@ -661,6 +791,69 @@ angular.module('starter.controllers', [])
     }
 })
 
+.controller('itemPersonFoodIdCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    $scope.food_id = $stateParams.food_id;
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            food_id:$scope.food_id
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/food.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.food = data.food;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.delete = function(id){
+
+            var parameters = {
+                user_id:user.id,
+                user_token:user.token,
+                food_id:id
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.delete('http://localhost:3000/api/v1/realper/food_delete.json', config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_food', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+
+// INTEREST
 .controller('itemPersonInterestsCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.person_id = $stateParams.person_id;
@@ -731,6 +924,67 @@ angular.module('starter.controllers', [])
             });
         };
 
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+.controller('itemPersonInterestsIdCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    $scope.interest_id = $stateParams.interest_id;
+
+    if (Util.logged()) {
+
+        $scope.person = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            interest_id:$scope.interest_id
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/interest.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.interest = data.interest;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.delete = function(id){
+
+            var parameters = {
+                user_id:user.id,
+                user_token:user.token,
+                interest_id:id
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.delete('http://localhost:3000/api/v1/realper/interest_delete.json', config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_present', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
         
     }else{
         $ionicLoading.hide();

@@ -24,6 +24,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, AuthProvider, AuthInterceptProvider) {
 
+    $ionicConfigProvider.views.maxCache(0);
 
     // DEVISE
     AuthProvider.loginMethod('POST');
@@ -139,12 +140,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.person_date_view', {
-        url: '/person_date_view',
+        url: '/person_date_view/:reminder_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_date_view.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_date_view.html'
             }
         }
     })
@@ -169,12 +168,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.person_food_view', {
-        url: '/person_food_view',
+        url: '/person_food_view/:food_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_food_view.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_food_view.html'
             }
         }
     })
@@ -201,12 +198,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.person_place_view', {
-        url: '/person_place_view',
+        url: '/person_place_view/:place_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_place_view.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_place_view.html'
             }
         }
     })
@@ -234,12 +229,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
      .state('app.person_present_view', {
-        url: '/person_present_view',
+        url: '/person_present_view/:interest_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_present_view.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_present_view.html'
             }
         }
     })

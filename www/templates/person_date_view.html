@@ -1,27 +1,27 @@
-<ion-view title="Detalhes">
+<ion-view title="Detalhes" ng-controller="itemPersonDateIdCtrl">
     <ion-content scroll="false">
         <div class="padding form-input">
             <div class="list list-inset">
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Data</span>
-                    <input type="date" placeholder="">
+                    <input type="date" placeholder="" ng-model="reminder.date">
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Nome</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="reminder.name">
                 </label>
 
                 <label class="item item-input item-stacked-label ">
                     <span class="input-label">Descrição</span>
-                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                    <textarea placeholder="" name="" id="" cols="30" rows="3" ng-model="reminder.description"></textarea>
                 </label>
             </div>
         </div>
     </ion-content>
     <ion-footer-bar align-title="center" class="bar-dark">
         <div class="actions-footer">
-            <button class="button button-balanced" ng-click="">Salvar</button>
-            <button class="button button-assertive" ng-click="">Deletar</button>
+            <button class="button button-balanced" ng-click="save(reminder.id)">Salvar</button>
+            <button class="button button-assertive" ng-click="delete(reminder.id)">Deletar</button>
         </div>
     </ion-footer-bar>
 </ion-view>

@@ -13,17 +13,16 @@
                 <div class="item-timeline item-widget" ng-repeat="list in list_interests">
                     <div class="widget-header">
                         <h4 class="title">{{list.title}}</h4>
-                        <a class="link-see" href="#/app/person_present_view">
+                        <a class="link-see" href="#/app/person_present_view/{{list.id}}">
                             <i class="icon ion-eye"></i>
                         </a>
                     </div>
 
                     <div class="widget-body">
                         <ul class="widget-list-info">
-                            <li class="item-list">
-
+                            <li class="item-list" ng-if="emptyVal(list.image)">
                                 <div class="info-detail">
-                                    <img src="https://osporquesdoesporte.files.wordpress.com/2014/06/camisa-italia-1.jpg" alt="">
+                                    <img src="{{list.image}}" alt="">
                                 </div>
                             </li>
                             <li class="item-list">

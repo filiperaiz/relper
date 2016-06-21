@@ -13,16 +13,16 @@
                 <div class="item-timeline item-widget" ng-repeat="list in list_places">
                     <div class="widget-header">
                         <h4 class="title">{{list.title}}</h4>
-                        <a class="link-see" href="#/app/person_place_view">
+                        <a class="link-see" href="#/app/person_place_view/{{list.id}}">
                             <i class="icon ion-eye"></i>
                         </a>
                     </div>
 
                     <div class="widget-body">
                         <ul class="widget-list-info">
-                            <li class="item-list">
+                            <li class="item-list" ng-if="emptyVal(list.image)">
                                 <div class="info-detail">
-                                    <img src="http://4.bp.blogspot.com/_iqj3EFJ73-M/S8egKslMjQI/AAAAAAAAPU4/9tk5w9I7-kA/s1600/teatro+4+de+setembro.jpg" alt="">
+                                    <img src="{{list.image}}" alt="">
                                 </div>
                             </li>
                             <li class="item-list">

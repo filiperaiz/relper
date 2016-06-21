@@ -1,4 +1,4 @@
-<ion-view title="Detalhes">
+<ion-view title="Detalhes" ng-controller="itemPersonInterestsIdCtrl">
     <ion-content>
         <div class="padding form-input">
             <div class="list list-inset">
@@ -21,12 +21,12 @@
 
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Nome</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="interest.title">
                 </label>
 
                 <label class="item item-input item-stacked-label ">
                     <span class="input-label">Descrição</span>
-                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                    <textarea placeholder="" name="" id="" cols="30" rows="3" ng-model="interest.description"></textarea>
                 </label>
             </div>
         </div>
@@ -34,8 +34,8 @@
 
     <ion-footer-bar align-title="center" class="bar-dark">
         <div class="actions-footer">
-            <button class="button button-balanced" ng-click="">Salvar</button>
-            <button class="button button-assertive" ng-click="">Deletar</button>
+            <button class="button button-balanced" ng-click="save(interest.id)">Salvar</button>
+            <button class="button button-assertive" ng-click="delete(interest.id)">Deletar</button>
         </div>
     </ion-footer-bar>
 </ion-view>
