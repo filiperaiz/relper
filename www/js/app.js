@@ -129,7 +129,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.person_date_form', {
-        url: '/person_date_form',
+        url: '/person_date_form/new/:person_id',
         views: {
             'menuContent': {
                 templateUrl: 'templates/person_date_form.html',

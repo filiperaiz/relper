@@ -1,16 +1,20 @@
-<ion-view title="Nova data">
+<ion-view title="Nova data" ng-controller="itemPersonDateNewCtrl">
    <ion-content scroll="false">
     <div class="padding form-input">
       <strong class="title-form dark">Cadastre um novo evento para esta pessoa</strong>
       <div class="list list-inset">
           <label class="item item-input item-stacked-label">
               <span class="input-label">Data</span>
-              <input type="date" placeholder="">
+              <input type="date" placeholder="" ng-model="reminder.date">
+          </label>
+          <label class="item item-input item-stacked-label">
+              <span class="input-label">Nome</span>
+              <input type="text" placeholder="" ng-model="reminder.name">
           </label>
 
           <label class="item item-input item-stacked-label ">
               <span class="input-label">Descrição</span>
-              <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+              <textarea placeholder="" name="" id="" cols="30" rows="3" ng-model="reminder.description"></textarea>
           </label>
       </div>
 
@@ -21,7 +25,7 @@
 
     <ion-footer-bar align-title="center" class="bar-dark">
         <div class="actions-footer">
-            <button class="button button-balanced" ng-click="">Adicionar</button>
+            <button class="button button-balanced" ng-click="save()">Adicionar</button>
         </div>
     </ion-footer-bar>
 
