@@ -565,6 +565,32 @@ angular.module('starter.controllers', [])
                 
             });
         }
+
+        $scope.save = function(id){
+
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                reminder_id:id,
+                date:$scope.reminder.date,
+                name:$scope.reminder.name,
+                description:$scope.reminder.description
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('http://localhost:3000/api/v1/realper/reminder_save.json', data, config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_date', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
         
     }else{
         $ionicLoading.hide();
@@ -698,6 +724,31 @@ angular.module('starter.controllers', [])
             };
 
             $http.delete('http://localhost:3000/api/v1/realper/place_delete.json', config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_place', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+
+        $scope.save = function(id){
+
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                place_id:id,
+                title:$scope.place.title,
+                description:$scope.place.description
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('http://localhost:3000/api/v1/realper/place_save.json', data, config)
             .success(function (data, status, headers) {
                 $state.go('app.person_place', {person_id:data.person.id});
             })
@@ -845,6 +896,31 @@ angular.module('starter.controllers', [])
                 
             });
         }
+
+        $scope.save = function(id){
+
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                food_id:id,
+                title:$scope.food.title,
+                description:$scope.food.description
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('http://localhost:3000/api/v1/realper/food_save.json', data, config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_food', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
         
     }else{
         $ionicLoading.hide();
@@ -978,6 +1054,31 @@ angular.module('starter.controllers', [])
             };
 
             $http.delete('http://localhost:3000/api/v1/realper/interest_delete.json', config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_present', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+
+        $scope.save = function(id){
+
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                interest_id:id,
+                title:$scope.interest.title,
+                description:$scope.interest.description
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('http://localhost:3000/api/v1/realper/interest_save.json', data, config)
             .success(function (data, status, headers) {
                 $state.go('app.person_present', {person_id:data.person.id});
             })
