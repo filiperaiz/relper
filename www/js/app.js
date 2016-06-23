@@ -71,8 +71,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         url: '/timeline',
         views: {
             'menuContent': {
-                templateUrl: 'templates/timeline.html',
-                controller: 'TimelineCtrl'
+                templateUrl: 'templates/timeline.html'
             }
         }
     })

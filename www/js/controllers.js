@@ -167,14 +167,87 @@ angular.module('starter.controllers', [])
 
 
 // TIMELINE CONTROLLER
-.controller('TimelineCtrl', function($scope, $stateParams) {})
+.controller('TimelineCtrl', function($scope, $stateParams, Util, $http, $window, $ionicLoading) {
+
+    if (Util.logged()) {
+
+        $scope.list_reminders = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        $scope.hasMoreData  = true;
+        $scope.page = 1;
+
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token, 
+            page:$scope.page
+        };
+
+        var config = {
+            params: parameters
+        };
+
+        $http.get('http://localhost:3000/api/v1/realper/list_reminders.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.list_reminders = data.list_reminders;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
+        });
+
+
+        $scope.loadMore = function() {
+            //$ionicLoading.show({template: '<ion-spinner icon="spiral"></ion-spinner><br>Aguarde...'});
+            $scope.page += 1;
+            
+            var parameters = {
+                token_user:user.token,
+                user_id:user.id,
+                user_token:user.token, 
+                page:$scope.page
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.get('http://localhost:3000/api/v1/realper/list_reminders.json', config)
+            .success(function(data, status, headers, config) {
+                if(data.user_logged.flag){
+                    if(data.list_reminders.length==0){
+                        $scope.hasMoreData  = false;
+                    }
+                    for (i = 0; i < data.list_reminders.length; i++) {
+                        $scope.list_reminders.push(data.list_reminders[i]);
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                }else{
+                    $window.localStorage.removeItem('user_token');
+                    $ionicLoading.hide();
+                    $state.go('login');
+                }
+            });
+        };
+
+
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+
 
 // PERSON CONTROLLER
 .controller('ListPersonCtrl', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
 
     if (Util.logged()) {
 
-        $scope.list_people = {};
+        $scope.list_people = Array();
 
         var user = JSON.parse($window.localStorage['user_token']);
         $scope.hasMoreData  = true;
@@ -297,10 +370,11 @@ angular.module('starter.controllers', [])
 
             var user = JSON.parse($window.localStorage['user_token']);
             
-            var parameters = {
+            var data = $.param({
                 user_id:user.id,
                 user_token:user.token,
                 avatar:$scope.person.avatar,
+                name:$scope.person.name,
                 email:$scope.person.email,
                 type_relative:$scope.person.type_relative,
                 as_met:$scope.person.as_met,
@@ -334,7 +408,7 @@ angular.module('starter.controllers', [])
                 pant_size:$scope.person.pant_size,
                 short_size:$scope.person.short_size,
                 other_clothes:$scope.person.other_clothes
-            };
+            });
 
             var config = {
                 headers : {
@@ -342,15 +416,8 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            var parameters = {
-                params: parameters
-            };
 
-            console.log(parameters)
-            console.log(config)
-
-
-            $http.post('http://localhost:3000/api/v1/realper/create_person.json', parameters, config)
+            $http.post('http://localhost:3000/api/v1/realper/create_person.json', data, config)
             .success(function(data, status, headers, config) {
 
                 console.log(data)
@@ -429,6 +496,8 @@ angular.module('starter.controllers', [])
         $state.go('login');
     }
 })
+
+
 
 
 
@@ -609,6 +678,7 @@ angular.module('starter.controllers', [])
 
 
         $scope.save = function(){
+            
             var data = $.param({
                 user_id:user.id,
                 user_token:user.token,
@@ -1509,6 +1579,9 @@ angular.module('starter.controllers', [])
 })
 
 
+
+
+
 .controller('sendPicCtrl', function($scope, $stateParams, $cordovaCamera) {
     $scope.takePhoto = function() {
         var options = {
@@ -1592,10 +1665,6 @@ angular.module('starter.controllers', [])
       });
   }
 });
-
-
-
-
 
 
 
