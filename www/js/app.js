@@ -157,7 +157,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.person_food_form', {
-        url: '/person_food_form',
+        url: '/person_food_form/new/:person_id',
         views: {
             'menuContent': {
                 templateUrl: 'templates/person_food_form.html',
@@ -187,12 +187,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.person_place_form', {
-        url: '/person_place_form',
+        url: '/person_place_form/new/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_place_form.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_place_form.html'
             }
         }
     })
@@ -218,12 +216,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.person_present_form', {
-        url: '/person_present_form',
+        url: '/person_present_form/new/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_present_form.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_present_form.html'
             }
         }
     })

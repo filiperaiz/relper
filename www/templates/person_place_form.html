@@ -1,11 +1,11 @@
-<ion-view title="Novo lugar">
+<ion-view title="Novo lugar" ng-controller="itemPersonPlaceNewCtrl">
     <ion-content>
         <div class="padding form-input">
             <strong class="title-form dark">Cadastre um novo lugar para esta pessoa</strong>
             <div class="list list-inset">
                 <div class="take-pic">
-                    <img ng-show="imgURI !== undefined" class="img-view-result" ng-src="{{imgURI}}">
-                    <img ng-show="imgURI === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
+                    <img ng-show="emptyVal(place.image)" class="img-view-result" ng-src="{{place.image}}">
+                    <img ng-show="!emptyVal(place.image)" class="img-view" ng-src="img/upload/icon-camera.png">
                     <div class="row">
                         <div class="col">
                             <a class="button button-block button-calm" ng-click="takePhoto()">
@@ -22,19 +22,19 @@
 
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Nome</span>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" ng-model="place.title">
                 </label>
 
                 <label class="item item-input item-stacked-label ">
                     <span class="input-label">Descrição</span>
-                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                    <textarea placeholder="" name="" id="" cols="30" rows="3" ng-model="place.description"></textarea>
                 </label>
             </div>
         </div>
     </ion-content>
     <ion-footer-bar align-title="center" class="bar-dark">
         <div class="actions-footer">
-            <button class="button button-balanced" ng-click="">Adicionar</button>
+            <button class="button button-balanced" ng-click="save()">Adicionar</button>
         </div>
     </ion-footer-bar>
 </ion-view>

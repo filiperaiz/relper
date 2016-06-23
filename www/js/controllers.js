@@ -602,11 +602,8 @@ angular.module('starter.controllers', [])
 
     if (Util.logged()) {
 
-
-
         $scope.reminder = {};
 
-        
         var user = JSON.parse($window.localStorage['user_token']);
         var person_id = $stateParams.person_id;
 
@@ -616,7 +613,6 @@ angular.module('starter.controllers', [])
                 user_id:user.id,
                 user_token:user.token,
                 date:$scope.reminder.date,
-                name:$scope.reminder.name,
                 person_id:person_id,
                 description:$scope.reminder.description
             });
@@ -641,6 +637,9 @@ angular.module('starter.controllers', [])
         $state.go('login');
     }
 })
+
+
+
 
 
 // PLACE
@@ -848,6 +847,90 @@ angular.module('starter.controllers', [])
     }
 })
 
+.controller('itemPersonPlaceNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    if (Util.logged()) {
+
+        $scope.place = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        var person_id = $stateParams.person_id;
+
+
+        $scope.save = function(){
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                title:$scope.place.title,
+                description:$scope.place.description,
+                image:$scope.place.image,
+                person_id:person_id
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('http://localhost:3000/api/v1/realper/place_save.json', data, config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_place', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+
+        $scope.takePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.place.image = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+              // An error occured. Show a message to the user
+            });
+        }
+
+        $scope.choosePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.place.image = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+              // An error occured. Show a message to the user
+            });
+        }
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+
+
+
 
 // FOOD
 .controller('itemPersonFoodCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
@@ -1053,6 +1136,91 @@ angular.module('starter.controllers', [])
     }
 })
 
+.controller('itemPersonFoodNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    if (Util.logged()) {
+
+        $scope.food = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        var person_id = $stateParams.person_id;
+
+
+        $scope.save = function(){
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                title:$scope.food.title,
+                description:$scope.food.description,
+                image:$scope.food.image,
+                person_id:person_id
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('http://localhost:3000/api/v1/realper/food_save.json', data, config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_food', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+
+        $scope.takePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.food.image = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+              // An error occured. Show a message to the user
+            });
+        }
+
+        $scope.choosePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.food.image = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+              // An error occured. Show a message to the user
+            });
+        }
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+
+
+
+
 
 // INTEREST
 .controller('itemPersonInterestsCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
@@ -1196,6 +1364,87 @@ angular.module('starter.controllers', [])
                 title:$scope.interest.title,
                 description:$scope.interest.description,
                 image:$scope.interest.image
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('http://localhost:3000/api/v1/realper/interest_save.json', data, config)
+            .success(function (data, status, headers) {
+                $state.go('app.person_present', {person_id:data.person.id});
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+
+        $scope.takePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.interest.image = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+              // An error occured. Show a message to the user
+            });
+        }
+
+        $scope.choosePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.interest.image = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+              // An error occured. Show a message to the user
+            });
+        }
+        
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
+    }
+})
+
+.controller('itemPersonInterestsNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+
+    if (Util.logged()) {
+
+        $scope.interest = {};
+
+        var user = JSON.parse($window.localStorage['user_token']);
+        var person_id = $stateParams.person_id;
+
+
+        $scope.save = function(){
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                title:$scope.interest.title,
+                description:$scope.interest.description,
+                image:$scope.interest.image,
+                person_id:person_id
             });
         
             var config = {
