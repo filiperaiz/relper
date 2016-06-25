@@ -306,7 +306,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('itemPersonCtrl', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
+.controller('itemPersonIdCtrl', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
 
     $scope.person_id = $stateParams.person_id;
 
@@ -340,6 +340,97 @@ angular.module('starter.controllers', [])
             }
         });
 
+        $scope.delete = function(id){
+
+            var parameters = {
+                user_id:user.id,
+                user_token:user.token,
+                person_id:id
+            };
+
+            var config = {
+                params: parameters
+            };
+
+            $http.delete('http://localhost:3000/api/v1/realper/person_delete.json', config)
+            .success(function (data, status, headers) {
+                $state.go('app.person');
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+
+        $scope.save = function(id){
+
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                person_id:id, 
+                avatar:$scope.person.avatar,
+                type_relative:$scope.person.type_relative,
+                as_met:$scope.person.as_met,               
+                where_met:$scope.person.where_met,            
+                when_relationship:$scope.person.when_relationship,    
+                unforgettable_moments:$scope.person.unforgettable_moments,
+                something_else:$scope.person.something_else,       
+                name:$scope.person.name,                    
+                birth_date:$scope.person.birth_date,
+                place_of_birth:$scope.person.place_of_birth,       
+                qualities:$scope.person.qualities,
+                defects:$scope.person.defects,
+                color:$scope.person.color,
+                music:$scope.person.music,
+                films:$scope.person.films,
+                sports:$scope.person.sports,
+                place:$scope.person.place,
+                drinks:$scope.person.drinks,
+                books:$scope.person.books,
+                series:$scope.person.series,
+                food:$scope.person.food,
+                works_with_what:$scope.person.works_with_what,
+                job_time:$scope.person.job_time,
+                about_work:$scope.person.about_work,
+                reliable_friends:$scope.person.reliable_friends,
+                unreliable_friends:$scope.person.unreliable_friends,
+                name_mother:$scope.person.name_mother,
+                name_father:$scope.person.name_father,
+                brothers:$scope.person.brothers,
+                other_relatives:$scope.person.other_relatives,
+                shirt_size:$scope.person.shirt_size,
+                pant_size:$scope.person.pant_size,
+                short_size:$scope.person.short_size,
+                other_clothes:$scope.person.other_clothes
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('http://localhost:3000/api/v1/realper/person_save.json', data, config)
+            .success(function (data, status, headers) {
+                if(typeof data.errors_reminder == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person');
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_reminder.length;i++){
+                        er+= data.errors_reminder[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                }   
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+
     }else{
         $ionicLoading.hide();
         $state.go('login');
@@ -362,19 +453,17 @@ angular.module('starter.controllers', [])
             
             var data = $.param({
                 user_id:user.id,
-                user_token:user.token,
+                user_token:user.token,    
                 avatar:$scope.person.avatar,
-                name:$scope.person.name,
-                email:$scope.person.email,
                 type_relative:$scope.person.type_relative,
-                as_met:$scope.person.as_met,
-                where_met:$scope.person.where_met,
-                when_met:$scope.person.when_met,
-                when_relationship:$scope.person.when_relationship,
+                as_met:$scope.person.as_met,               
+                where_met:$scope.person.where_met,            
+                when_relationship:$scope.person.when_relationship,    
                 unforgettable_moments:$scope.person.unforgettable_moments,
-                something_else:$scope.person.something_else,
+                something_else:$scope.person.something_else,       
+                name:$scope.person.name,                    
                 birth_date:$scope.person.birth_date,
-                place_of_birth:$scope.person.place_of_birth,
+                place_of_birth:$scope.person.place_of_birth,       
                 qualities:$scope.person.qualities,
                 defects:$scope.person.defects,
                 color:$scope.person.color,
@@ -383,8 +472,9 @@ angular.module('starter.controllers', [])
                 sports:$scope.person.sports,
                 place:$scope.person.place,
                 drinks:$scope.person.drinks,
+                books:$scope.person.books,
                 series:$scope.person.series,
-                foods:$scope.person.foods,
+                food:$scope.person.food,
                 works_with_what:$scope.person.works_with_what,
                 job_time:$scope.person.job_time,
                 about_work:$scope.person.about_work,
@@ -407,7 +497,7 @@ angular.module('starter.controllers', [])
             }
 
 
-            $http.post('http://localhost:3000/api/v1/realper/create_person.json', data, config)
+            $http.post('http://localhost:3000/api/v1/realper/person_save.json', data, config)
             .success(function(data, status, headers, config) {
 
                 console.log(data)

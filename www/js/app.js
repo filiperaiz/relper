@@ -99,12 +99,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('app.person_view', {
-        url: '/person_view',
+        url: '/person_view/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_view.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_view.html'
             }
         }
     })

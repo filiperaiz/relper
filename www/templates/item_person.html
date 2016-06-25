@@ -1,15 +1,15 @@
-<ion-view view-title="Pessoa" ng-controller="itemPersonCtrl">
+<ion-view view-title="Pessoa" ng-controller="itemPersonIdCtrl">
     <ion-content class="padding">
         <div class="header-person">
             <div class="row">
                 <div class="col">
-                    <a href="tel:{{contact.phone_contact}}" class="button button-balanced ion-ios-telephone"></a>
+                    <a href="tel:{{person.phone_number}}" class="button button-balanced ion-ios-telephone"></a>
                 </div>
                 <div class="col">
-                    <img class="avatar" ng-src="img/upload/user.jpg">
+                    <img ng-show="!emptyVal(person.avatar)" class="avatar" ng-src="{{person.avatar}}">
                 </div>
                 <div class="col">
-                    <a ng-href="#/app/person_view" class="button button-calm ion-edit"></a>
+                    <a ng-href="#/app/person_view/{{person.id}}" class="button button-calm ion-edit"></a>
                 </div>
             </div>
             <h2 class="title">{{person.name}}</h2>
