@@ -8,14 +8,9 @@ angular.module('starter.controllers', [])
     $scope.activeTemplate = 'login';
     $scope.user = {};
 
-
     if (Util.logged()) {
         $state.go('app.person');
-    }else{
-        $state.go('login');
     }
-
-
 
     $scope.facebook_enter = function() {
         $ionicLoading.show({
@@ -63,10 +58,6 @@ angular.module('starter.controllers', [])
         });
     };
 
-    $scope.signin = function(){
-        $state.go('sign-in');
-    }
-
     $scope.create_user = function() {
 
         $ionicLoading.show({
@@ -89,13 +80,13 @@ angular.module('starter.controllers', [])
         Auth.register(credentials, config).then(function(registeredUser) {}, function(error) {
             message = '';
             if (typeof error.data.errors.name != 'undefined') {
-                message += '<li>Email: ' + error.data.errors.name + '</li>'
+                message += '<li>' + error.data.errors.name + '</li>'
             }
             if (typeof error.data.errors.email != 'undefined') {
-                message += '<li>Email: ' + error.data.errors.email + '</li>'
+                message += '<li>Email' + error.data.errors.email + '</li>'
             }
             if (typeof error.data.errors.password != 'undefined') {
-                message += '<li>Senha: ' + error.data.errors.password + '</li>'
+                message += '<li>Senha ' + error.data.errors.password + '</li>'
             }
             $ionicPopup.alert({
                 title: 'Erro!!',
@@ -127,7 +118,6 @@ angular.module('starter.controllers', [])
             $state.go('login');
         });
     };
-
 
     $scope.enter = function() {
         $ionicLoading.show({
@@ -654,7 +644,20 @@ angular.module('starter.controllers', [])
 
             $http.post('http://localhost:3000/api/v1/realper/reminder_save.json', data, config)
             .success(function (data, status, headers) {
-                $state.go('app.person_date', {person_id:data.person.id});
+                if(typeof data.errors_reminder == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person_date', {person_id:data.person.id});
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_reminder.length;i++){
+                        er+= data.errors_reminder[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                }   
             })
             .error(function (data, status, header, config) {
                 
@@ -695,7 +698,38 @@ angular.module('starter.controllers', [])
 
             $http.post('http://localhost:3000/api/v1/realper/reminder_save.json', data, config)
             .success(function (data, status, headers) {
-                $state.go('app.person_date', {person_id:data.person.id});
+                if(typeof data.errors_date == "undefined"){
+                    
+                    if(typeof data.errors_reminder == "undefined"){
+                        $ionicLoading.hide();
+                        $state.go('app.person_date', {person_id:data.person.id});
+                    }else{
+                        var er = '';
+                        for(i=0; i<data.errors_reminder.length;i++){
+                            er+= data.errors_reminder[i].message+'<br>';
+                        }
+                        $ionicPopup.alert({
+                         title: 'Erro!!!',
+                         template: er
+                       });
+                        $ionicLoading.hide();
+                    }   
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_person.length;i++){
+                        er+= data.errors_person[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                }
+
+
+
+
+                
             })
             .error(function (data, status, header, config) {
                 
@@ -864,7 +898,20 @@ angular.module('starter.controllers', [])
 
             $http.post('http://localhost:3000/api/v1/realper/place_save.json', data, config)
             .success(function (data, status, headers) {
-                $state.go('app.person_place', {person_id:data.person.id});
+                if(typeof data.errors_place == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person_place', {person_id:data.person.id});
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_place.length;i++){
+                        er+= data.errors_place[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                }
             })
             .error(function (data, status, header, config) {
                 
@@ -945,7 +992,21 @@ angular.module('starter.controllers', [])
 
             $http.post('http://localhost:3000/api/v1/realper/place_save.json', data, config)
             .success(function (data, status, headers) {
-                $state.go('app.person_place', {person_id:data.person.id});
+
+                if(typeof data.errors_place == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person_place', {person_id:data.person.id});
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_place.length;i++){
+                        er+= data.errors_place[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                }                  
             })
             .error(function (data, status, header, config) {
                 
@@ -1153,7 +1214,21 @@ angular.module('starter.controllers', [])
 
             $http.post('http://localhost:3000/api/v1/realper/food_save.json', data, config)
             .success(function (data, status, headers) {
-                $state.go('app.person_food', {person_id:data.person.id});
+
+                if(typeof data.errors_food == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person_food', {person_id:data.person.id});
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_food.length;i++){
+                        er+= data.errors_food[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                }  
             })
             .error(function (data, status, header, config) {
                 
@@ -1234,7 +1309,20 @@ angular.module('starter.controllers', [])
 
             $http.post('http://localhost:3000/api/v1/realper/food_save.json', data, config)
             .success(function (data, status, headers) {
-                $state.go('app.person_food', {person_id:data.person.id});
+                if(typeof data.errors_food == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person_food', {person_id:data.person.id});
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_food.length;i++){
+                        er+= data.errors_food[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                }                
             })
             .error(function (data, status, header, config) {
                 
@@ -1444,7 +1532,20 @@ angular.module('starter.controllers', [])
 
             $http.post('http://localhost:3000/api/v1/realper/interest_save.json', data, config)
             .success(function (data, status, headers) {
-                $state.go('app.person_present', {person_id:data.person.id});
+                if(typeof data.errors_interest == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person_present', {person_id:data.person.id});
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_interest.length;i++){
+                        er+= data.errors_interest[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                } 
             })
             .error(function (data, status, header, config) {
                 
@@ -1525,7 +1626,21 @@ angular.module('starter.controllers', [])
 
             $http.post('http://localhost:3000/api/v1/realper/interest_save.json', data, config)
             .success(function (data, status, headers) {
-                $state.go('app.person_present', {person_id:data.person.id});
+
+                if(typeof data.errors_interest == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person_present', {person_id:data.person.id});
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_interest.length;i++){
+                        er+= data.errors_interest[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                } 
             })
             .error(function (data, status, header, config) {
                 
