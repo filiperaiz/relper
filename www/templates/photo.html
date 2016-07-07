@@ -1,10 +1,10 @@
-<ion-view view-title="Enviar Foto">
+<ion-view view-title="Enviar Foto" ng-controller="sendPicCtrl">
     <ion-content class="padding">
         <form action="" class="form-input">
             <div class="list input-form">
                 <div class="take-pic">
-                    <img ng-show="imgURI !== undefined" class="img-view-result" ng-src="{{imgURI}}">
-                    <img ng-show="imgURI === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
+                    <img ng-show="emptyVal(element.image)" class="img-view-result" ng-src="{{element.image}}">
+                    <img ng-show="!emptyVal(element.image)" class="img-view" ng-src="img/upload/icon-camera.png">
                     <div class="row">
                         <div class="col">
                             <a class="button button-block button-calm" ng-click="takePhoto()">
@@ -25,33 +25,30 @@
                     <div class="input-label">
                         Categoria
                     </div>
-                    <select>
-                        <option>Lugares</option>
-                        <option selected>Comidas</option>
-                        <option>Presentes e Interesses</option>
+                    <select ng-model="element.type">
+                        <option value="lugares">Lugares</option>
+                        <option value="comidas">Comidas</option>
+                        <option value="presentes">Presentes e Interesses</option>
                     </select>
                 </label>
                 <label class="item item-input item-select">
                     <div class="input-label">
                         Pessoa
                     </div>
-                    <select>
-                        <option>Pedro</option>
-                        <option>Maria</option>
-                        <option>Ana</option>
-                        <option selected>joão</option>
+                    <select ng-model="element.person_id">
+                        <option ng-repeat="list in list_people" value="{{list.id}}">{{list.name}}</option>
                     </select>
                 </label>
                 <label class="item item-input item-stacked-label ">
                     <span class="input-label">Descrição</span>
-                    <textarea placeholder="" name="" id="" cols="30" rows="3"></textarea>
+                    <textarea placeholder="" name="" id="" cols="30" rows="3" ng-model="element.description"></textarea>
                 </label>
             </div>
         </form>
     </ion-content>
     <ion-footer-bar align-title="center" class="bar-dark">
         <div class="actions-footer">
-            <button class="button button-balanced" ng-click="">Salvar</button>
+            <button class="button button-balanced" ng-click="save()">Salvar</button>
         </div>
     </ion-footer-bar>
 </ion-view>

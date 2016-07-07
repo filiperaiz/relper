@@ -28,15 +28,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     // DEVISE
     AuthProvider.loginMethod('POST');
-    AuthProvider.loginPath('http://localhost:3000/users/sign_in.json');
+    AuthProvider.loginPath('http://realper.filiperaiz.com.br/users/sign_in.json');
 
     // Customize logout
     AuthProvider.logoutMethod('DELETE');
-    AuthProvider.logoutPath('http://localhost:3000/users/sign_out.json');
+    AuthProvider.logoutPath('http://realper.filiperaiz.com.br/users/sign_out.json');
 
     // Customize register
     AuthProvider.registerMethod('POST');
-    AuthProvider.registerPath('http://localhost:3000/users.json');
+    AuthProvider.registerPath('http://realper.filiperaiz.com.br/users.json');
 
     //AuthProvider.resourceName('user');
 
@@ -129,9 +129,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         url: '/person_date_form/new/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_date_form.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_date_form.html'
             }
         }
     })
@@ -157,9 +155,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         url: '/person_food_form/new/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_food_form.html',
-                controller: 'itemPersonCtrl',
-
+                templateUrl: 'templates/person_food_form.html'
             }
         }
     })
@@ -258,8 +254,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         url: '/photo',
         views: {
             'menuContent': {
-                templateUrl: 'templates/photo.html',
-                controller: 'sendPicCtrl'
+                templateUrl: 'templates/photo.html'
             }
         }
     })

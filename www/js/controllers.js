@@ -177,7 +177,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/list_reminders.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_reminders.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.list_reminders = data.list_reminders;
@@ -205,7 +205,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.get('http://localhost:3000/api/v1/realper/list_reminders.json', config)
+            $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_reminders.json', config)
             .success(function(data, status, headers, config) {
                 if(data.user_logged.flag){
                     if(data.list_reminders.length==0){
@@ -253,7 +253,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/list_people.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_people.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.list_people = data.list_people;
@@ -281,7 +281,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.get('http://localhost:3000/api/v1/realper/list_people.json', config)
+            $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_people.json', config)
             .success(function(data, status, headers, config) {
                 if(data.user_logged.flag){
                     if(data.list_people.length==0){
@@ -328,7 +328,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/person.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/person.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.person = data.person;
@@ -352,7 +352,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.delete('http://localhost:3000/api/v1/realper/person_delete.json', config)
+            $http.delete('http://realper.filiperaiz.com.br/api/v1/realper/person_delete.json', config)
             .success(function (data, status, headers) {
                 $state.go('app.person');
             })
@@ -409,7 +409,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/person_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/person_save.json', data, config)
             .success(function (data, status, headers) {
                 if(typeof data.errors_reminder == "undefined"){
                     $ionicLoading.hide();
@@ -497,7 +497,7 @@ angular.module('starter.controllers', [])
             }
 
 
-            $http.post('http://localhost:3000/api/v1/realper/person_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/person_save.json', data, config)
             .success(function(data, status, headers, config) {
 
                 console.log(data)
@@ -605,7 +605,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/list_reminders.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_reminders.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.list_reminders = data.list_reminders;
@@ -634,7 +634,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.get('http://localhost:3000/api/v1/realper/list_reminders.json', config)
+            $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_reminders.json', config)
             .success(function(data, status, headers, config) {
                 if(data.user_logged.flag){
                     if(data.list_reminders.length==0){
@@ -680,7 +680,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/reminder.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/reminder.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.reminder = data.reminder;
@@ -706,7 +706,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.delete('http://localhost:3000/api/v1/realper/reminder_delete.json', config)
+            $http.delete('http://realper.filiperaiz.com.br/api/v1/realper/reminder_delete.json', config)
             .success(function (data, status, headers) {
                 $state.go('app.person_date', {person_id:data.person.id});
             })
@@ -732,7 +732,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/reminder_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/reminder_save.json', data, config)
             .success(function (data, status, headers) {
                 if(typeof data.errors_reminder == "undefined"){
                     $ionicLoading.hide();
@@ -786,7 +786,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/reminder_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/reminder_save.json', data, config)
             .success(function (data, status, headers) {
                 if(typeof data.errors_date == "undefined"){
                     
@@ -860,7 +860,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/list_places.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_places.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.list_places = data.list_places;
@@ -889,7 +889,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.get('http://localhost:3000/api/v1/realper/list_places.json', config)
+            $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_places.json', config)
             .success(function(data, status, headers, config) {
                 if(data.user_logged.flag){
                     if(data.list_places.length==0){
@@ -935,7 +935,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/place.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/place.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.place = data.place;
@@ -960,7 +960,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.delete('http://localhost:3000/api/v1/realper/place_delete.json', config)
+            $http.delete('http://realper.filiperaiz.com.br/api/v1/realper/place_delete.json', config)
             .success(function (data, status, headers) {
                 $state.go('app.person_place', {person_id:data.person.id});
             })
@@ -986,7 +986,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/place_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/place_save.json', data, config)
             .success(function (data, status, headers) {
                 if(typeof data.errors_place == "undefined"){
                     $ionicLoading.hide();
@@ -1080,7 +1080,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/place_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/place_save.json', data, config)
             .success(function (data, status, headers) {
 
                 if(typeof data.errors_place == "undefined"){
@@ -1177,7 +1177,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/list_foods.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_foods.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.list_foods = data.list_foods;
@@ -1206,7 +1206,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.get('http://localhost:3000/api/v1/realper/list_foods.json', config)
+            $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_foods.json', config)
             .success(function(data, status, headers, config) {
                 if(data.user_logged.flag){
                     if(data.list_foods.length==0){
@@ -1251,7 +1251,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/food.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/food.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.food = data.food;
@@ -1276,7 +1276,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.delete('http://localhost:3000/api/v1/realper/food_delete.json', config)
+            $http.delete('http://realper.filiperaiz.com.br/api/v1/realper/food_delete.json', config)
             .success(function (data, status, headers) {
                 $state.go('app.person_food', {person_id:data.person.id});
             })
@@ -1302,7 +1302,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/food_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/food_save.json', data, config)
             .success(function (data, status, headers) {
 
                 if(typeof data.errors_food == "undefined"){
@@ -1397,7 +1397,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/food_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/food_save.json', data, config)
             .success(function (data, status, headers) {
                 if(typeof data.errors_food == "undefined"){
                     $ionicLoading.hide();
@@ -1494,7 +1494,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/list_interests.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_interests.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.list_interests = data.list_interests;
@@ -1523,7 +1523,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.get('http://localhost:3000/api/v1/realper/list_interests.json', config)
+            $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_interests.json', config)
             .success(function(data, status, headers, config) {
                 if(data.user_logged.flag){
                     if(data.list_interests.length==0){
@@ -1569,7 +1569,7 @@ angular.module('starter.controllers', [])
             params: parameters
         };
 
-        $http.get('http://localhost:3000/api/v1/realper/interest.json', config)
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/interest.json', config)
         .success(function(data, status, headers, config) {
             if(data.user_logged.flag){
                 $scope.interest = data.interest;
@@ -1594,7 +1594,7 @@ angular.module('starter.controllers', [])
                 params: parameters
             };
 
-            $http.delete('http://localhost:3000/api/v1/realper/interest_delete.json', config)
+            $http.delete('http://realper.filiperaiz.com.br/api/v1/realper/interest_delete.json', config)
             .success(function (data, status, headers) {
                 $state.go('app.person_present', {person_id:data.person.id});
             })
@@ -1620,7 +1620,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/interest_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json', data, config)
             .success(function (data, status, headers) {
                 if(typeof data.errors_interest == "undefined"){
                     $ionicLoading.hide();
@@ -1714,7 +1714,7 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            $http.post('http://localhost:3000/api/v1/realper/interest_save.json', data, config)
+            $http.post('http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json', data, config)
             .success(function (data, status, headers) {
 
                 if(typeof data.errors_interest == "undefined"){
@@ -1784,48 +1784,127 @@ angular.module('starter.controllers', [])
 })
 
 
+.controller('sendPicCtrl', function($scope, $window, $state, $stateParams, $cordovaCamera, $http, Util, $ionicLoading) {
+    
+    if (Util.logged()) {
 
+        var user = JSON.parse($window.localStorage['user_token']);
 
+        $scope.element = {};
 
-.controller('sendPicCtrl', function($scope, $stateParams, $cordovaCamera) {
-    $scope.takePhoto = function() {
-        var options = {
-            quality: 75,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.CAMERA,
-            allowEdit: true,
-            encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 300,
-            targetHeight: 300,
-            popoverOptions: CameraPopoverOptions,
-            saveToPhotoAlbum: false
+        var parameters = {
+            user_id:user.id,
+            user_token:user.token,
+            flag_all:true
         };
 
-        $cordovaCamera.getPicture(options).then(function(imageData) {
-            $scope.imgURI = "data:image/jpeg;base64," + imageData;
-        }, function(err) {
-            // An error occured. Show a message to the user
-        });
-    }
-
-    $scope.choosePhoto = function() {
-        var options = {
-            quality: 75,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-            allowEdit: true,
-            encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 300,
-            targetHeight: 300,
-            popoverOptions: CameraPopoverOptions,
-            saveToPhotoAlbum: false
+        var config = {
+            params: parameters
         };
 
-        $cordovaCamera.getPicture(options).then(function(imageData) {
-            $scope.imgURI = "data:image/jpeg;base64," + imageData;
-        }, function(err) {
-            // An error occured. Show a message to the user
+        $http.get('http://realper.filiperaiz.com.br/api/v1/realper/list_people.json', config)
+        .success(function(data, status, headers, config) {
+            if(data.user_logged.flag){
+                $scope.list_people = data.list_people;
+                $ionicLoading.hide();
+            }else{
+                $window.localStorage.removeItem('user_token');
+                $ionicLoading.hide();
+                $state.go('login');
+            }
         });
+
+
+        $scope.save = function(){
+            var data = $.param({
+                user_id:user.id,
+                user_token:user.token,
+                title:$scope.element.title,
+                description:$scope.element.description,
+                image:$scope.element.image,
+                person_id:$scope.element.person_id
+            });
+        
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            if (element.type=='comida'){
+                url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
+            }else if(element.type=='presente'){
+                url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
+            }else if (element.type=='lugares') {
+                url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
+            }
+
+            $http.post(url, data, config)
+            .success(function (data, status, headers) {
+
+                if(typeof data.errors_interest == "undefined"){
+                    $ionicLoading.hide();
+                    $state.go('app.person_present', {person_id:data.person.id});
+                }else{
+                    var er = '';
+                    for(i=0; i<data.errors_interest.length;i++){
+                        er+= data.errors_interest[i].message+'<br>';
+                    }
+                    $ionicPopup.alert({
+                     title: 'Erro!!!',
+                     template: er
+                   });
+                    $ionicLoading.hide();
+                } 
+            })
+            .error(function (data, status, header, config) {
+                
+            });
+        }
+
+        $scope.takePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.element.image = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+                // An error occured. Show a message to the user
+            });
+        }
+
+        $scope.choosePhoto = function() {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.element.image = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+                // An error occured. Show a message to the user
+            });
+        }
+
+    }else{
+        $ionicLoading.hide();
+        $state.go('login');
     }
 })
 
