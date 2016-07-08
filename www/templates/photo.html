@@ -26,7 +26,7 @@
                         Categoria
                     </div>
                     <select ng-model="element.type">
-                        <option value="lugares">Lugares</option>
+                        <option value="lugares" selected="selected">Lugares</option>
                         <option value="comidas">Comidas</option>
                         <option value="presentes">Presentes e Interesses</option>
                     </select>
@@ -38,6 +38,10 @@
                     <select ng-model="element.person_id">
                         <option ng-repeat="list in list_people" value="{{list.id}}">{{list.name}}</option>
                     </select>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Nome</span>
+                    <input type="text" placeholder="" ng-model="element.title">
                 </label>
                 <label class="item item-input item-stacked-label ">
                     <span class="input-label">Descrição</span>

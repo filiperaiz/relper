@@ -155,6 +155,16 @@ angular.module('starter.controllers', [])
     };
 })
 
+// LOGOFF
+.controller('logoffCtrl', function($scope, $state, $timeout, $ionicLoading, $ionicModal, Auth, $q, $window, $ionicPopup, Util) {
+    $window.localStorage.removeItem('user_token');
+    $state.go('login');
+})
+
+// MENU
+.controller('menuCtrl', function($scope, $window) {
+    $scope.user = JSON.parse($window.localStorage['user_token']);
+})
 
 // TIMELINE CONTROLLER
 .controller('TimelineCtrl', function($scope, $stateParams, Util, $http, $window, $ionicLoading) {
@@ -579,8 +589,6 @@ angular.module('starter.controllers', [])
 
 
 
-
-
 // REMINDER
 .controller('itemPersonDateCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
@@ -831,8 +839,6 @@ angular.module('starter.controllers', [])
         $state.go('login');
     }
 })
-
-
 
 
 
@@ -1151,8 +1157,6 @@ angular.module('starter.controllers', [])
 
 
 
-
-
 // FOOD
 .controller('itemPersonFoodCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
@@ -1464,9 +1468,6 @@ angular.module('starter.controllers', [])
         $state.go('login');
     }
 })
-
-
-
 
 
 
@@ -1784,7 +1785,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('sendPicCtrl', function($scope, $window, $state, $stateParams, $cordovaCamera, $http, Util, $ionicLoading) {
+.controller('sendPicCtrl', function($scope, $window, $state, $stateParams, $cordovaCamera, $http, Util, $ionicLoading, $ionicPopup) {
     
     if (Util.logged()) {
 
@@ -1831,24 +1832,40 @@ angular.module('starter.controllers', [])
                 }
             }
 
-            if (element.type=='comida'){
-                url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
-            }else if(element.type=='presente'){
-                url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
-            }else if (element.type=='lugares') {
-                url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
+            if ($scope.element.type=='comidas'){
+                var url = 'http://realper.filiperaiz.com.br/api/v1/realper/food_save.json';
+            }else if($scope.element.type=='presentes'){
+                var url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
+            }else if ($scope.element.type=='lugares') {
+                var url = 'http://realper.filiperaiz.com.br/api/v1/realper/place_save.json';
             }
 
             $http.post(url, data, config)
             .success(function (data, status, headers) {
 
-                if(typeof data.errors_interest == "undefined"){
+                if ($scope.element.type=='comidas'){
+                    errors = data.errors_food;
+                }else if($scope.element.type=='presentes'){
+                    errors = data.errors_interest;
+                }else if ($scope.element.type=='lugares') {
+                    errors = data.errors_place;
+                }
+
+
+                if(typeof errors == "undefined"){
                     $ionicLoading.hide();
-                    $state.go('app.person_present', {person_id:data.person.id});
+
+                    if ($scope.element.type=='comidas'){
+                        $state.go('app.person_food', {person_id:data.person.id});
+                    }else if($scope.element.type=='presentes'){
+                        $state.go('app.person_present', {person_id:data.person.id});
+                    }else if ($scope.element.type=='lugares') {
+                        $state.go('app.person_place', {person_id:data.person.id});
+                    }
                 }else{
                     var er = '';
-                    for(i=0; i<data.errors_interest.length;i++){
-                        er+= data.errors_interest[i].message+'<br>';
+                    for(i=0; i<errors.length;i++){
+                        er+= errors[i].message+'<br>';
                     }
                     $ionicPopup.alert({
                      title: 'Erro!!!',
