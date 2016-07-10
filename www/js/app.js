@@ -29,15 +29,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     // http://realper.filiperaiz.com.br
     // DEVISE
     AuthProvider.loginMethod('POST');
-    AuthProvider.loginPath('http://localhost:3000/users/sign_in.json');
+    AuthProvider.loginPath('http://realper.filiperaiz.com.br/users/sign_in.json');
 
     // Customize logout
     AuthProvider.logoutMethod('DELETE');
-    AuthProvider.logoutPath('http://localhost:3000/users/sign_out.json');
+    AuthProvider.logoutPath('http://realper.filiperaiz.com.br/users/sign_out.json');
 
     // Customize register
     AuthProvider.registerMethod('POST');
-    AuthProvider.registerPath('http://localhost:3000/users.json');
+    AuthProvider.registerPath('http://realper.filiperaiz.com.br/users.json');
 
     //AuthProvider.resourceName('user');
 
