@@ -7,7 +7,6 @@
 
     <ion-content>
         <div class="list-infos">
-            <!-- <ion ng-repeat="processo in processos"> -->
             <ion>
                 <div class="item-timeline item-widget" ng-repeat="list in list_foods" ng-if="list_foods.length>0">
                     <div class="widget-header">
@@ -45,7 +44,7 @@
                     on-infinite="loadMore()"
                     distance="10%">
                 </ion-infinite-scroll>
-                
+
             </ion>
         </div>
     </ion-content>
