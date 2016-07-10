@@ -638,3 +638,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
         }
     }
 }
+.empty-box{
+    text-align:center;
+    margin-top:50px;
+    h2{
+        font-size:20px;
+        color:$positive;
+    }
+}

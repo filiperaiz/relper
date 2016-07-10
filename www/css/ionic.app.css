@@ -10263,3 +10263,10 @@ a.button {
     max-height: 5000px;
     padding: 10px;
     border-top: 1px solid #394c5b; }
+
+.empty-box {
+  text-align: center;
+  margin-top: 50px; }
+  .empty-box h2 {
+    font-size: 20px;
+    color: #3276c9; }

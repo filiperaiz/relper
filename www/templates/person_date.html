@@ -10,7 +10,7 @@
         <div class="list-infos">
             <!-- <ion ng-repeat="processo in processos"> -->
             <ion>
-                <div class="item-timeline item-widget" ng-repeat="list in list_reminders">
+                <div class="item-timeline item-widget" ng-repeat="list in list_reminders" ng-if="list_reminders.length>0">
                     <div class="widget-header">
                         <h4 class="title">{{list.date}}</h4>
                         <a class="link-see" href="#/app/person_date_view/{{list.id}}">
@@ -45,6 +45,11 @@
                             </li>
                         </ul>
                     </div>
+                </div>
+
+                <div ng-if="list_reminders.length==0" class="empty-box">
+                    <h2>Nenhum Cadastro</h2>
+                    <img src="img/upload/empty.png">
                 </div>
 
                 <ion-infinite-scroll
