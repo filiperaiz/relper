@@ -13,9 +13,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.facebook_enter = function() {
-        $ionicLoading.show({
-            template: 'Aguarde'
-        });
+        $ionicLoading.show({template: 'Aguarde'});
         
 
         facebookConnectPlugin.getLoginStatus(function(success){
@@ -510,8 +508,6 @@ angular.module('starter.controllers', [])
             $http.post('http://realper.filiperaiz.com.br/api/v1/realper/person_save.json', data, config)
             .success(function(data, status, headers, config) {
 
-                console.log(data)
-
                 if(data.user_logged.flag){
                     if(typeof data.errors_person == "undefined"){
                         $ionicLoading.hide();
@@ -955,7 +951,7 @@ angular.module('starter.controllers', [])
 
 
         $scope.delete = function(id){
-
+            $ionicLoading.show({template: 'Aguarde'});
             var parameters = {
                 user_id:user.id,
                 user_token:user.token,
@@ -968,6 +964,7 @@ angular.module('starter.controllers', [])
 
             $http.delete('http://realper.filiperaiz.com.br/api/v1/realper/place_delete.json', config)
             .success(function (data, status, headers) {
+                $ionicLoading.hide();
                 $state.go('app.person_place', {person_id:data.person.id});
             })
             .error(function (data, status, header, config) {
@@ -976,7 +973,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.save = function(id){
-
+            $ionicLoading.show({template: 'Aguarde'});
             var data = $.param({
                 user_id:user.id,
                 user_token:user.token,
@@ -1071,6 +1068,7 @@ angular.module('starter.controllers', [])
 
 
         $scope.save = function(){
+            $ionicLoading.show({template: 'Aguarde'});
             var data = $.param({
                 user_id:user.id,
                 user_token:user.token,
@@ -1269,7 +1267,7 @@ angular.module('starter.controllers', [])
 
 
         $scope.delete = function(id){
-
+            $ionicLoading.show({template: 'Aguarde'});
             var parameters = {
                 user_id:user.id,
                 user_token:user.token,
@@ -1282,6 +1280,7 @@ angular.module('starter.controllers', [])
 
             $http.delete('http://realper.filiperaiz.com.br/api/v1/realper/food_delete.json', config)
             .success(function (data, status, headers) {
+                $ionicLoading.hide();
                 $state.go('app.person_food', {person_id:data.person.id});
             })
             .error(function (data, status, header, config) {
@@ -1290,7 +1289,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.save = function(id){
-
+            $ionicLoading.show({template: 'Aguarde'});
             var data = $.param({
                 user_id:user.id,
                 user_token:user.token,
@@ -1386,6 +1385,7 @@ angular.module('starter.controllers', [])
 
 
         $scope.save = function(){
+            $ionicLoading.show({template: 'Aguarde'});
             var data = $.param({
                 user_id:user.id,
                 user_token:user.token,
@@ -1394,7 +1394,7 @@ angular.module('starter.controllers', [])
                 image:$scope.food.image,
                 person_id:person_id
             });
-        
+
             var config = {
                 headers : {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -1584,7 +1584,7 @@ angular.module('starter.controllers', [])
 
 
         $scope.delete = function(id){
-
+            $ionicLoading.show({template: 'Aguarde'});
             var parameters = {
                 user_id:user.id,
                 user_token:user.token,
@@ -1597,6 +1597,7 @@ angular.module('starter.controllers', [])
 
             $http.delete('http://realper.filiperaiz.com.br/api/v1/realper/interest_delete.json', config)
             .success(function (data, status, headers) {
+                $ionicLoading.hide();
                 $state.go('app.person_present', {person_id:data.person.id});
             })
             .error(function (data, status, header, config) {
@@ -1605,7 +1606,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.save = function(id){
-
+            $ionicLoading.show({template: 'Aguarde'});
             var data = $.param({
                 user_id:user.id,
                 user_token:user.token,
@@ -1700,6 +1701,7 @@ angular.module('starter.controllers', [])
 
 
         $scope.save = function(){
+            $ionicLoading.show({template: 'Aguarde'});
             var data = $.param({
                 user_id:user.id,
                 user_token:user.token,
@@ -1817,66 +1819,88 @@ angular.module('starter.controllers', [])
 
 
         $scope.save = function(){
-            var data = $.param({
-                user_id:user.id,
-                user_token:user.token,
-                title:$scope.element.title,
-                description:$scope.element.description,
-                image:$scope.element.image,
-                person_id:$scope.element.person_id
-            });
-        
-            var config = {
-                headers : {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            if (validate()){
+                $ionicLoading.show({template: 'Aguarde'});
+                var data = $.param({
+                    user_id:user.id,
+                    user_token:user.token,
+                    title:$scope.element.title,
+                    description:$scope.element.description,
+                    image:$scope.element.image,
+                    person_id:$scope.element.person_id
+                });
+
+            
+                var config = {
+                    headers : {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    }
                 }
-            }
-
-            if ($scope.element.type=='comidas'){
-                var url = 'http://realper.filiperaiz.com.br/api/v1/realper/food_save.json';
-            }else if($scope.element.type=='presentes'){
-                var url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
-            }else if ($scope.element.type=='lugares') {
-                var url = 'http://realper.filiperaiz.com.br/api/v1/realper/place_save.json';
-            }
-
-            $http.post(url, data, config)
-            .success(function (data, status, headers) {
 
                 if ($scope.element.type=='comidas'){
-                    errors = data.errors_food;
+                    var url = 'http://realper.filiperaiz.com.br/api/v1/realper/food_save.json';
                 }else if($scope.element.type=='presentes'){
-                    errors = data.errors_interest;
+                    var url = 'http://realper.filiperaiz.com.br/api/v1/realper/interest_save.json';
                 }else if ($scope.element.type=='lugares') {
-                    errors = data.errors_place;
+                    var url = 'http://realper.filiperaiz.com.br/api/v1/realper/place_save.json';
                 }
 
-
-                if(typeof errors == "undefined"){
-                    $ionicLoading.hide();
+                $http.post(url, data, config)
+                .success(function (data, status, headers) {
 
                     if ($scope.element.type=='comidas'){
-                        $state.go('app.person_food', {person_id:data.person.id});
+                        errors = data.errors_food;
                     }else if($scope.element.type=='presentes'){
-                        $state.go('app.person_present', {person_id:data.person.id});
+                        errors = data.errors_interest;
                     }else if ($scope.element.type=='lugares') {
-                        $state.go('app.person_place', {person_id:data.person.id});
+                        errors = data.errors_place;
                     }
-                }else{
-                    var er = '';
-                    for(i=0; i<errors.length;i++){
-                        er+= errors[i].message+'<br>';
-                    }
-                    $ionicPopup.alert({
-                     title: 'Erro!!!',
-                     template: er
-                   });
-                    $ionicLoading.hide();
-                } 
-            })
-            .error(function (data, status, header, config) {
-                
-            });
+
+
+                    if(typeof errors == "undefined"){
+                        $ionicLoading.hide();
+
+                        if ($scope.element.type=='comidas'){
+                            $state.go('app.person_food', {person_id:data.person.id});
+                        }else if($scope.element.type=='presentes'){
+                            $state.go('app.person_present', {person_id:data.person.id});
+                        }else if ($scope.element.type=='lugares') {
+                            $state.go('app.person_place', {person_id:data.person.id});
+                        }
+                    }else{
+                        var er = '';
+                        for(i=0; i<errors.length;i++){
+                            er+= errors[i].message+'<br>';
+                        }
+                        $ionicPopup.alert({
+                         title: 'Erro!!!',
+                         template: er
+                       });
+                        $ionicLoading.hide();
+                    } 
+                })
+                .error(function (data, status, header, config) {
+                    
+                });
+            }
+        }
+
+        validate = function(){
+            flag_val = false;
+            if(Util.emptyVal($scope.element.type)){
+                $ionicPopup.alert({
+                    title: 'Erro!!!',
+                    template: 'Escolha uma categoria'
+                });
+            }else if (Util.emptyVal($scope.element.person_id)){
+                $ionicPopup.alert({
+                    title: 'Erro!!!',
+                    template: 'Escolha uma pessoa'
+                });
+            }else{
+                flag_val = true;
+            }
+            return flag_val;
         }
 
         $scope.takePhoto = function() {

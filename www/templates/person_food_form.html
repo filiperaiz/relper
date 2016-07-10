@@ -5,8 +5,8 @@
             <div class="list list-inset">
                 <div class="list input-form">
                     <div class="take-pic">
-                        <img ng-show="emptyVal(food.image)" class="img-view-result" ng-src="{{food.image}}">
-                        <img ng-show="!emptyVal(food.image)" class="img-view" ng-src="img/upload/icon-camera.png">
+                        <img ng-show="food.image !== undefined" class="img-view-result" ng-src="{{food.image}}">
+                        <img ng-show="food.image === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
                         <div class="row">
                             <div class="col">
                                 <a class="button button-block button-calm" ng-click="takePhoto()">

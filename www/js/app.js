@@ -26,6 +26,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     $ionicConfigProvider.views.maxCache(0);
 
+    // http://realper.filiperaiz.com.br
     // DEVISE
     AuthProvider.loginMethod('POST');
     AuthProvider.loginPath('http://realper.filiperaiz.com.br/users/sign_in.json');

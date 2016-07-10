@@ -3,8 +3,7 @@
         <div class="padding form-input">
             <div class="list list-inset">
                 <div class="take-pic">
-                    <img ng-show="emptyVal(place.image)" class="img-view-result" ng-src="{{place.image}}">
-                    <img ng-show="!emptyVal(place.image)" class="img-view" ng-src="img/upload/icon-camera.png">
+                    <img class="img-view" ng-src="{{place.image}}">
                     <div class="row">
                         <div class="col">
                             <a class="button button-block button-calm" ng-click="takePhoto()">

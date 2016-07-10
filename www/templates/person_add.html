@@ -4,8 +4,8 @@
             <strong class="title-form dark">Vamos começar o seu cadastro para usar o nosso aplicativo</strong>
             <div class="list list-inset">
                 <div class="take-pic">
-                    <img ng-show="emptyVal(person.avatar)" class="img-view-result" ng-src="{{person.avatar}}">
-                    <img ng-show="!emptyVal(person.avatar)" class="img-view" ng-src="img/upload/icon-camera.png">
+                    <img ng-show="person.avatar !== undefined" class="img-view-result" ng-src="{{person.avatar}}">
+                    <img ng-show="person.avatar === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
                     <div class="row">
                         <div class="col">
                             <a class="button button-block button-calm" ng-click="takePhoto()">

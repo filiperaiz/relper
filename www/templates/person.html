@@ -8,7 +8,7 @@
         <div class="list-persons list">
             <!-- <ion-item class="item-avatar item-icon-right item-cliente" ng-repeat="cliente in clientes" type="item-text-wrap" href="#/app/clientes/{{cliente.id}}"> -->
             <ion-item class="item-avatar item-icon-right item-person" type="item-text-wrap" href="#/app/person/item_person/{{list.id}}" ng-repeat="list in list_people">
-                <img ng-show="emptyVal(list.avatar)" ng-src="{{list.avatar}}">
+                <img ng-src="{{list.avatar}}">
                 <h2 class="name">{{list.name}}</h2>
                 <p class="type">{{list.type_relative}}</p>
                 <i class="icon ion-chevron-right icon-accessory"></i>
