@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
 
 // LOGIN CONTROLLER
 
-.controller('loginCtrl', function($scope, $state, $ionicLoading, $ionicModal, Auth, $window, $ionicPopup, Util, $cordovaFacebook) {
+.controller('loginCtrl', function($scope, $state, $ionicLoading, Auth, $window, $ionicPopup, Util /*, $cordovaFacebook*/) {
 
     $scope.activeTemplate = 'login';
     $scope.user = {};
@@ -15,7 +15,8 @@ angular.module('starter.controllers', [])
     }
 
     $scope.loginFacebook = function() {
-
+        alert('Entrou');
+/*
         //Browser Login
         if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
 
@@ -70,64 +71,17 @@ angular.module('starter.controllers', [])
                 console.log(error);
             });
 
-        }
+        }*/
     };
 
 
-
-
-
-
-
-    // $scope.facebook_enter = function() {
-    //     $ionicLoading.show({ template: 'Aguarde' });
-
-
-    //     facebookConnectPlugin.getLoginStatus(function(success) {
-    //         if (success.status === 'connected') {
-    //             // The user is logged in and has authenticated your app, and response.authResponse supplies
-    //             // the user's ID, a valid access token, a signed request, and the time the access token
-    //             // and signed request each expire
-    //             getFacebookProfileInfo(success.authResponse)
-    //                 .then(function(profileInfo) {
-    //                     // For the purpose of this example I will store user data on local storage
-    //                     UserService.setUser({
-    //                         authResponse: success.authResponse,
-    //                         userID: profileInfo.id,
-    //                         name: profileInfo.name,
-    //                         email: profileInfo.email,
-    //                         picture: "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
-    //                     });
-
-    //                     $state.go('app.home');
-    //                 }, function(fail) {
-    //                     // Fail get profile info
-    //                     console.log('profile info fail', fail);
-    //                 });
-    //         } else {
-    //             // If (success.status === 'not_authorized') the user is logged in to Facebook,
-    //             // but has not authenticated your app
-    //             // Else the person is not logged into Facebook,
-    //             // so we're not sure if they are logged into this app or not.
-
-    //             console.log('getLoginStatus', success.status);
-
-    //             $ionicLoading.show({
-    //                 template: 'Logging in...'
-    //             });
-
-    //             // Ask the permissions you need. You can learn more about
-    //             // FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
-    //             facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
-    //         }
-    //     });
-    // };
-
     $scope.create_user = function() {
-
+        alert('Entrou 1');
         $ionicLoading.show({
             template: 'Aguarde'
         });
+
+        alert('Entrou 2');
 
         var credentials = {
             name: $scope.user.name,
@@ -136,11 +90,15 @@ angular.module('starter.controllers', [])
             password_confirmation: $scope.user.password_confirmation
         };
 
+        alert('Entrou 3');
+
         var config = {
             headers: {
                 'X-HTTP-Method-Override': 'POST'
             }
         };
+
+        alert('Entrou 4');
 
         Auth.register(credentials, config).then(function(registeredUser) {}, function(error) {
             message = '';
@@ -159,6 +117,8 @@ angular.module('starter.controllers', [])
             });
             $ionicLoading.hide();
         });
+
+        alert('Entrou 5');
 
         $scope.$on('devise:new-registration', function(event, user) {
             $ionicLoading.hide();

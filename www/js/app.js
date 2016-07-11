@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     });
 
 
-    Parse.initialize("YOUR APP ID", "YOUR JAVASCRIPT KEY");
+    /*Parse.initialize("YOUR APP ID", "YOUR JAVASCRIPT KEY");
 
     if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
         window.fbAsyncInit = function() {
@@ -42,7 +42,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-    }
+    }*/
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, AuthProvider, AuthInterceptProvider) {
