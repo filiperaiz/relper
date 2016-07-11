@@ -3,8 +3,9 @@
         <form action="" class="form-input">
             <div class="list input-form">
                 <div class="take-pic">
-                    <img ng-show="emptyVal(element.image)" class="img-view-result" ng-src="{{element.image}}">
-                    <img ng-show="!emptyVal(element.image)" class="img-view" ng-src="img/upload/icon-camera.png">
+                    <img ng-show="element.image !== undefined" class="img-view-result" ng-src="{{element.image}}">
+                    <img ng-show="element.image === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
+
                     <div class="row">
                         <div class="col">
                             <a class="button button-block button-calm" ng-click="takePhoto()">
