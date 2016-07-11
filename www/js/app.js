@@ -20,6 +20,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             StatusBar.styleDefault();
         }
     });
+
+
+    Parse.initialize("YOUR APP ID", "YOUR JAVASCRIPT KEY");
+
+    if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
+        window.fbAsyncInit = function() {
+            Parse.FacebookUtils.init({
+                appId: 'YOUR FACEBOOK APP ID',
+                version: 'v2.3',
+                xfbml: true
+            });
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return; }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    }
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, AuthProvider, AuthInterceptProvider) {
@@ -48,7 +71,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     $stateProvider
 
-    .state('login', {
+        .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html'
     })
@@ -153,7 +176,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         url: '/person/person_food/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_food.html'            }
+                templateUrl: 'templates/person_food.html'
+            }
         }
     })
 
@@ -181,7 +205,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         url: '/person/person_place/:person_id',
         views: {
             'menuContent': {
-                templateUrl: 'templates/person_place.html'            }
+                templateUrl: 'templates/person_place.html'
+            }
         }
     })
 

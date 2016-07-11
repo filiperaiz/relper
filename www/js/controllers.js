@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
 
 
 // LOGIN CONTROLLER
-.controller('loginCtrl', function($scope, $state, $timeout, $ionicLoading, $ionicModal, Auth, $q, $window, $ionicPopup, Util) {
+.controller('loginCtrl', function($scope, $state, $timeout, $ionicLoading, $ionicModal, Auth, $q, $window, $ionicPopup, Util, $cordovaFacebook) {
     $scope.activeTemplate = 'login';
     $scope.user = {};
 
@@ -12,49 +12,114 @@ angular.module('starter.controllers', [])
         $state.go('app.person');
     }
 
-    $scope.facebook_enter = function() {
-        $ionicLoading.show({ template: 'Aguarde' });
+    $scope.loginFacebook = function() {
 
+        //Browser Login
+        if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
 
-        facebookConnectPlugin.getLoginStatus(function(success) {
-            if (success.status === 'connected') {
-                // The user is logged in and has authenticated your app, and response.authResponse supplies
-                // the user's ID, a valid access token, a signed request, and the time the access token
-                // and signed request each expire
-                getFacebookProfileInfo(success.authResponse)
-                    .then(function(profileInfo) {
-                        // For the purpose of this example I will store user data on local storage
-                        UserService.setUser({
-                            authResponse: success.authResponse,
-                            userID: profileInfo.id,
-                            name: profileInfo.name,
-                            email: profileInfo.email,
-                            picture: "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
-                        });
+            Parse.FacebookUtils.logIn(null, {
+                success: function(user) {
+                    console.log(user);
+                    if (!user.existed()) {
+                        alert("User signed up and logged in through Facebook!");
+                    } else {
+                        alert("User logged in through Facebook!");
+                    }
+                },
+                error: function(user, error) {
+                    alert("User cancelled the Facebook login or did not fully authorize.");
+                }
+            });
 
-                        $state.go('app.home');
-                    }, function(fail) {
-                        // Fail get profile info
-                        console.log('profile info fail', fail);
-                    });
-            } else {
-                // If (success.status === 'not_authorized') the user is logged in to Facebook,
-                // but has not authenticated your app
-                // Else the person is not logged into Facebook,
-                // so we're not sure if they are logged into this app or not.
+        }
+        //Native Login
+        else {
 
-                console.log('getLoginStatus', success.status);
+            $cordovaFacebook.login(["public_profile", "email"]).then(function(success) {
 
-                $ionicLoading.show({
-                    template: 'Logging in...'
+                console.log(success);
+
+                //Need to convert expiresIn format from FB to date
+                var expiration_date = new Date();
+                expiration_date.setSeconds(expiration_date.getSeconds() + success.authResponse.expiresIn);
+                expiration_date = expiration_date.toISOString();
+
+                var facebookAuthData = {
+                    "id": success.authResponse.userID,
+                    "access_token": success.authResponse.accessToken,
+                    "expiration_date": expiration_date
+                };
+
+                Parse.FacebookUtils.logIn(facebookAuthData, {
+                    success: function(user) {
+                        console.log(user);
+                        if (!user.existed()) {
+                            alert("User signed up and logged in through Facebook!");
+                        } else {
+                            alert("User logged in through Facebook!");
+                        }
+                    },
+                    error: function(user, error) {
+                        alert("User cancelled the Facebook login or did not fully authorize.");
+                    }
                 });
 
-                // Ask the permissions you need. You can learn more about
-                // FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
-                facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
-            }
-        });
+            }, function(error) {
+                console.log(error);
+            });
+
+        }
     };
+
+
+
+
+
+
+
+    // $scope.facebook_enter = function() {
+    //     $ionicLoading.show({ template: 'Aguarde' });
+
+
+    //     facebookConnectPlugin.getLoginStatus(function(success) {
+    //         if (success.status === 'connected') {
+    //             // The user is logged in and has authenticated your app, and response.authResponse supplies
+    //             // the user's ID, a valid access token, a signed request, and the time the access token
+    //             // and signed request each expire
+    //             getFacebookProfileInfo(success.authResponse)
+    //                 .then(function(profileInfo) {
+    //                     // For the purpose of this example I will store user data on local storage
+    //                     UserService.setUser({
+    //                         authResponse: success.authResponse,
+    //                         userID: profileInfo.id,
+    //                         name: profileInfo.name,
+    //                         email: profileInfo.email,
+    //                         picture: "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
+    //                     });
+
+    //                     $state.go('app.home');
+    //                 }, function(fail) {
+    //                     // Fail get profile info
+    //                     console.log('profile info fail', fail);
+    //                 });
+    //         } else {
+    //             // If (success.status === 'not_authorized') the user is logged in to Facebook,
+    //             // but has not authenticated your app
+    //             // Else the person is not logged into Facebook,
+    //             // so we're not sure if they are logged into this app or not.
+
+    //             console.log('getLoginStatus', success.status);
+
+    //             $ionicLoading.show({
+    //                 template: 'Logging in...'
+    //             });
+
+    //             // Ask the permissions you need. You can learn more about
+    //             // FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
+    //             facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
+    //         }
+    //     });
+    // };
 
     $scope.create_user = function() {
 
