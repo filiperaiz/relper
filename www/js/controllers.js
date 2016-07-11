@@ -127,20 +127,29 @@ angular.module('starter.controllers', [])
                 template: 'Cadastro Realizado. Faça seu Login!!'
             });
 
+            alert('Entrou 6');
+
             var config = {
                 headers: {
                     'X-HTTP-Method-Override': 'DELETE'
                 }
             };
+            alert('Entrou 7');
             Auth.logout(config).then(function(oldUser) {
                 // alert(oldUser.name + "you're signed out now.");
+                alert('Entrou 8');
             }, function(error) {
                 // An error occurred logging out.
+                alert('Entrou 9');
             });
             $scope.$on('devise:logout', function(event, oldCurrentUser) {
                 // ...
+                alert('Entrou 10');
+                $ionicLoading.hide();
+                $state.go('login');
             });
             $state.go('login');
+            alert('Entrou 11');
         });
     };
 
