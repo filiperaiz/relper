@@ -14,7 +14,8 @@
     <ion-side-menu side="left" class="menu-sidebar">
         <ion-header-bar class="bar-dark menu-sidebar-header">
             <div class="pic-user">
-                <img src="{{user.avatar}}" alt="">
+                <img ng-if="user.avatar.thumb_300_300.url === null" src="img/upload/Icon-user.png" alt="">
+                <img ng-if="user.avatar.thumb_300_300.url !== null" src="http://realper.filiperaiz.com.br{{user.avatar.thumb_300_300.url}}" alt="">
             </div>
             <div class="info-user">
                 <h2 class="name">{{user.name}}</h2>

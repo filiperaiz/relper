@@ -136,8 +136,12 @@ angular.module('starter.controllers', [])
         Auth.login(credentials, config).then(function(user) {
 
         }, function(error) {
+            $scope.error = 'Erro na autenticação';
+            $ionicPopup.alert({
+                title: 'Erro!!!',
+                template: $scope.error
+            });
             $ionicLoading.hide();
-            console.log(error)
         });
 
         $scope.$on('devise:login', function(event, currentUser) {
@@ -2019,7 +2023,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('profileCtrl', function($scope, $stateParams, $cordovaCamera, Util, $window, $http, $ionicLoading, $state) {
+.controller('profileCtrl', function($scope, $stateParams, $cordovaCamera, Util, $window, $http, $ionicLoading, $state, $cordovaCamera) {
 
     if (Util.logged()) {
 
