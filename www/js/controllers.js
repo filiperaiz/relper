@@ -4,7 +4,9 @@ angular.module('starter.controllers', [])
 
 
 // LOGIN CONTROLLER
-.controller('loginCtrl', function($scope, $state, $timeout, $ionicLoading, $ionicModal, Auth, $q, $window, $ionicPopup, Util, $cordovaFacebook) {
+
+.controller('loginCtrl', function($scope, $state, $ionicLoading, $ionicModal, Auth, $window, $ionicPopup, Util, $cordovaFacebook) {
+
     $scope.activeTemplate = 'login';
     $scope.user = {};
 
