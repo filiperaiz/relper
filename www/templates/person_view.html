@@ -2,10 +2,10 @@
   <ion-content>
     <div class="padding form-input">
         <div class="list list-inset">
-
                 <div class="take-pic">
-                    <img ng-show="emptyVal(person.avatar)" class="img-view-result" ng-src="{{person.avatar}}">
-                    <img ng-show="!emptyVal(person.avatar)" class="img-view" ng-src="img/upload/icon-camera.png">
+                    <img ng-show="person.avatar !== undefined" class="img-view-result" ng-src="{{person.avatar}}">
+                    <img ng-show="person.avatar === undefined" class="img-view" ng-src="img/upload/icon-camera.png">
+
                     <div class="row">
                         <div class="col">
                             <a class="button button-block button-calm" ng-click="takePhoto()">
@@ -19,7 +19,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="collapse-person">
                     <div class="collapse-item">
                         <input class="acc-input" id="acc-1" type="checkbox" name="collapse-group">
