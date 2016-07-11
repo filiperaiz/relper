@@ -139,6 +139,8 @@ angular.module('starter.controllers', [])
             });
             $scope.$on('devise:logout', function(event, oldCurrentUser) {
                 // ...
+                $ionicLoading.hide();
+                $state.go('login');
             });
             $state.go('login');
         });
