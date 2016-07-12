@@ -7,7 +7,7 @@ angular.module('starter.controllers', [])
 
 // LOGIN CONTROLLER
 
-.controller('loginCtrl', ['$scope', '$state', '$http', '$ionicLoading', 'Auth', '$window', '$ionicPopup', 'Util', function($scope, $state, $http, $ionicLoading, Auth, $window, $ionicPopup, Util) {
+.controller('loginCtrl', ['$scope', '$state', '$http', '$ionicLoading', 'Auth', '$window', '$ionicPopup', 'Util', '$firebaseObject', '$firebaseAuth', function($scope, $state, $http, $ionicLoading, Auth, $window, $ionicPopup, Util, $firebaseObject, $firebaseAuth) {
 
     $("#phone_n").mask('(00) 00000-0000');
 
@@ -16,6 +16,30 @@ angular.module('starter.controllers', [])
 
     if (Util.logged()) {
         $state.go('app.person');
+    }
+
+    $scope.facebookLogin = function(){
+
+        var auth = $firebaseAuth();
+        //https://relper-90bce.firebaseapp.com
+        // login with Facebook
+        auth.$signInWithPopup("facebook").then(function(firebaseUser) {
+
+            var credential = firebase.auth.FacebookAuthProvider.credential(firebaseUser.credential.accessToken);
+
+            console.log(firebase.auth().currentUser.photoURL)
+            console.log(firebase.auth().currentUser.displayName)
+            console.log(firebase.auth().currentUser.email)
+
+            alert(firebase.auth().currentUser.email)
+            alert(firebase.auth().currentUser.displayName)
+            alert(firebase.auth().currentUser.photoURL)
+
+
+            
+        }).catch(function(error) {
+            console.log("Authentication failed:", error);
+        });
     }
 
 

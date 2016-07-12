@@ -22,12 +22,31 @@
 
     <script src="lib/angular_devise/lib/devise.js"></script>
 
+    <!-- Firebase 
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!-- AngularFire
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+    -->
+
+    <!-- AngularFire -->
+    <script src="lib/angularfire.min.js"></script>
+
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
 
+
+    <script src="/lib/firebase/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: 'AIzaSyASLDfsx8z6zK3qubvWdfPmo6toUH69hVQ',
+            authDomain: 'relper-90bce.firebaseapp.com'
+        };
+        firebase.initializeApp(config);
+    </script>
 
   </head>
 
