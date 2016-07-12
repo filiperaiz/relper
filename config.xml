@@ -8,6 +8,8 @@
         Café e Pixel
     </author>
     <content src="index.html" />
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
     <access origin="*" />
 
     <feature name="SplashScreen">

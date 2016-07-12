@@ -1,11 +1,15 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $stateParams) {})
+.controller('AppCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
+
+}])
 
 
 // LOGIN CONTROLLER
 
-.controller('loginCtrl', function($scope, $state, $ionicLoading, Auth, $window, $ionicPopup, Util /*, $cordovaFacebook*/) {
+.controller('loginCtrl', ['$scope', '$state', '$http', '$ionicLoading', 'Auth', '$window', '$ionicPopup', 'Util', function($scope, $state, $http, $ionicLoading, Auth, $window, $ionicPopup, Util) {
+
+    $("#phone_n").mask('(00) 00000-0000');
 
     $scope.activeTemplate = 'login';
     $scope.user = {};
@@ -14,74 +18,12 @@ angular.module('starter.controllers', [])
         $state.go('app.person');
     }
 
-    $scope.loginFacebook = function() {
-        alert('Entrou');
-/*
-        //Browser Login
-        if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
-
-            Parse.FacebookUtils.logIn(null, {
-                success: function(user) {
-                    console.log(user);
-                    if (!user.existed()) {
-                        alert("User signed up and logged in through Facebook!");
-                    } else {
-                        alert("User logged in through Facebook!");
-                    }
-                },
-                error: function(user, error) {
-                    alert("User cancelled the Facebook login or did not fully authorize.");
-                }
-            });
-
-        }
-        //Native Login
-        else {
-
-            $cordovaFacebook.login(["public_profile", "email"]).then(function(success) {
-
-                console.log(success);
-
-                //Need to convert expiresIn format from FB to date
-                var expiration_date = new Date();
-                expiration_date.setSeconds(expiration_date.getSeconds() + success.authResponse.expiresIn);
-                expiration_date = expiration_date.toISOString();
-
-                var facebookAuthData = {
-                    "id": success.authResponse.userID,
-                    "access_token": success.authResponse.accessToken,
-                    "expiration_date": expiration_date
-                };
-
-                Parse.FacebookUtils.logIn(facebookAuthData, {
-                    success: function(user) {
-                        console.log(user);
-                        if (!user.existed()) {
-                            alert("User signed up and logged in through Facebook!");
-                        } else {
-                            alert("User logged in through Facebook!");
-                        }
-                    },
-                    error: function(user, error) {
-                        alert("User cancelled the Facebook login or did not fully authorize.");
-                    }
-                });
-
-            }, function(error) {
-                console.log(error);
-            });
-
-        }*/
-    };
-
 
     $scope.create_user = function() {
-        alert('Entrou 1');
+        
         $ionicLoading.show({
             template: 'Aguarde'
         });
-
-        alert('Entrou 2');
 
         var credentials = {
             name: $scope.user.name,
@@ -90,17 +32,15 @@ angular.module('starter.controllers', [])
             password_confirmation: $scope.user.password_confirmation
         };
 
-        alert('Entrou 3');
-
         var config = {
             headers: {
                 'X-HTTP-Method-Override': 'POST'
             }
         };
 
-        alert('Entrou 4');
+        Auth.register(credentials, config).then(function(registeredUser) {
 
-        Auth.register(credentials, config).then(function(registeredUser) {}, function(error) {
+        }, function(error) {
             message = '';
             if (typeof error.data.errors.name != 'undefined') {
                 message += '<li>' + error.data.errors.name + '</li>'
@@ -118,8 +58,6 @@ angular.module('starter.controllers', [])
             $ionicLoading.hide();
         });
 
-        alert('Entrou 5');
-
         $scope.$on('devise:new-registration', function(event, user) {
             $ionicLoading.hide();
             $ionicPopup.alert({
@@ -127,29 +65,25 @@ angular.module('starter.controllers', [])
                 template: 'Cadastro Realizado. Faça seu Login!!'
             });
 
-            alert('Entrou 6');
-
+            
+            
             var config = {
                 headers: {
                     'X-HTTP-Method-Override': 'DELETE'
                 }
             };
-            alert('Entrou 7');
+            
             Auth.logout(config).then(function(oldUser) {
                 // alert(oldUser.name + "you're signed out now.");
-                alert('Entrou 8');
             }, function(error) {
                 // An error occurred logging out.
-                alert('Entrou 9');
             });
             $scope.$on('devise:logout', function(event, oldCurrentUser) {
                 // ...
-                alert('Entrou 10');
                 $ionicLoading.hide();
                 $state.go('login');
             });
             $state.go('login');
-            alert('Entrou 11');
         });
     };
 
@@ -191,21 +125,21 @@ angular.module('starter.controllers', [])
             $state.go('app.person');
         });
     };
-})
+}])
 
 // LOGOFF
-.controller('logoffCtrl', function($scope, $state, $timeout, $ionicLoading, $ionicModal, Auth, $q, $window, $ionicPopup, Util) {
+.controller('logoffCtrl', ['$scope', '$window', function($scope, $window) {
     $window.localStorage.removeItem('user_token');
     $state.go('login');
-})
+}])
 
 // MENU
-.controller('menuCtrl', function($scope, $window) {
+.controller('menuCtrl', ['$scope', '$window', function($scope, $window) {
     $scope.user = JSON.parse($window.localStorage['user_token']);
-})
+}])
 
 // TIMELINE CONTROLLER
-.controller('TimelineCtrl', function($scope, $stateParams, Util, $http, $window, $ionicLoading) {
+.controller('TimelineCtrl', ['$scope', '$stateParams', 'Util', '$http', '$window', '$ionicLoading', function($scope, $stateParams, Util, $http, $window, $ionicLoading) {
 
     if (Util.logged()) {
 
@@ -276,12 +210,12 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
 
 
 // PERSON CONTROLLER
-.controller('ListPersonCtrl', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
+.controller('ListPersonCtrl', ['$state', '$scope', '$stateParams', '$window', 'Util', '$ionicLoading', '$http', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
 
     if (Util.logged()) {
 
@@ -352,9 +286,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonIdCtrl', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
+.controller('itemPersonIdCtrl', ['$state', '$scope', '$stateParams', '$window', 'Util', '$ionicLoading', '$http', function($state, $scope, $stateParams, $window, Util, $ionicLoading, $http) {
 
     $scope.person_id = $stateParams.person_id;
 
@@ -541,9 +475,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonNewCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     if (Util.logged()) {
 
@@ -691,12 +625,12 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
 
 
 // REMINDER
-.controller('itemPersonDateCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonDateCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.person_id = $stateParams.person_id;
 
@@ -771,9 +705,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonDateIdCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonDateIdCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.reminder_id = $stateParams.reminder_id;
 
@@ -872,9 +806,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonDateNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonDateNewCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     if (Util.logged()) {
 
@@ -944,12 +878,12 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
 
 
 // PLACE
-.controller('itemPersonPlaceCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonPlaceCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.person_id = $stateParams.person_id;
 
@@ -1024,9 +958,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonPlaceIdCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonPlaceIdCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.place_id = $stateParams.place_id;
 
@@ -1165,9 +1099,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonPlaceNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonPlaceNewCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     if (Util.logged()) {
 
@@ -1261,12 +1195,12 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
 
 
 // FOOD
-.controller('itemPersonFoodCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonFoodCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.person_id = $stateParams.person_id;
 
@@ -1341,9 +1275,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonFoodIdCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonFoodIdCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.food_id = $stateParams.food_id;
 
@@ -1482,9 +1416,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonFoodNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonFoodNewCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     if (Util.logged()) {
 
@@ -1577,12 +1511,12 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
 
 
 // INTEREST
-.controller('itemPersonInterestsCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonInterestsCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.person_id = $stateParams.person_id;
 
@@ -1657,9 +1591,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonInterestsIdCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonInterestsIdCtrl',['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     $scope.interest_id = $stateParams.interest_id;
 
@@ -1798,9 +1732,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('itemPersonInterestsNewCtrl', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
+.controller('itemPersonInterestsNewCtrl', ['$state', '$scope', '$stateParams', '$cordovaCamera', '$ionicScrollDelegate', '$http', 'Util', '$window', '$ionicLoading', '$ionicPopup', function($state, $scope, $stateParams, $cordovaCamera, $ionicScrollDelegate, $http, Util, $window, $ionicLoading, $ionicPopup) {
 
     if (Util.logged()) {
 
@@ -1894,10 +1828,10 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
 
-.controller('sendPicCtrl', function($scope, $window, $state, $stateParams, $cordovaCamera, $http, Util, $ionicLoading, $ionicPopup) {
+.controller('sendPicCtrl', ['$scope', '$window', '$state', '$stateParams', '$cordovaCamera', '$http', 'Util', '$ionicLoading', '$ionicPopup', function($scope, $window, $state, $stateParams, $cordovaCamera, $http, Util, $ionicLoading, $ionicPopup) {
 
     if (Util.logged()) {
 
@@ -2057,9 +1991,9 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-})
+}])
 
-.controller('profileCtrl', function($scope, $stateParams, $cordovaCamera, Util, $window, $http, $ionicLoading, $state, $cordovaCamera) {
+.controller('profileCtrl', ['$scope', '$stateParams', '$cordovaCamera', 'Util', '$window', '$http', '$ionicLoading', '$state', '$cordovaCamera', function($scope, $stateParams, $cordovaCamera, Util, $window, $http, $ionicLoading, $state, $cordovaCamera) {
 
     if (Util.logged()) {
 
@@ -2179,4 +2113,4 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
         $state.go('login');
     }
-});
+}])

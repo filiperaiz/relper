@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'Devise'])
 
-.run(function($ionicPlatform) {
+.run(['$ionicPlatform', function($ionicPlatform) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -43,9 +43,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     }*/
-})
+}])
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, AuthProvider, AuthInterceptProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', 'AuthProvider', 'AuthInterceptProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider, AuthProvider, AuthInterceptProvider) {
 
     $ionicConfigProvider.views.maxCache(0);
 
@@ -318,4 +318,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
-});
+}]);
